@@ -1,0 +1,142 @@
+<div class="concert-sync-container">
+  <!-- Header with Navigation -->
+  <mat-toolbar class="header-toolbar">
+    <div class="logo-container">
+      <img src="/images/concertsync-logo.png" alt="ConcertSync Logo" class="logo-img">
+      <span class="logo-text">ConcertSync</span>
+    </div>
+    <span class="toolbar-spacer"></span>
+    <div class="nav-links">
+      <a mat-button class="nav-link active">Home</a>
+      <a mat-button class="nav-link">Groups</a>
+      <a mat-button class="nav-link">Setlists</a>
+      <a mat-button class="nav-link">Marketplace</a>
+    </div>
+    <span class="toolbar-spacer"></span>
+    <div class="auth-buttons">
+      <button mat-button>Sign In</button>
+      <button mat-raised-button class="accent">Sign Up</button>
+    </div>
+  </mat-toolbar>
+
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="hero-content">
+      <h1 class="hero-title">Connect with Concert Lovers</h1>
+      <p class="hero-subtitle">Find groups, discover setlists, and enjoy the music together</p>
+      <div class="hero-actions">
+        <button mat-raised-button class="hero-button accent">Find a Group</button>
+        <button mat-stroked-button class="hero-button accent">Upcoming Concerts</button>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="/images/concert.jpg" alt="Concert crowd" class="hero-img">
+    </div>
+  </div>
+
+  <!-- Premium Banner -->
+  <mat-card class="premium-banner">
+    <mat-card-content class="premium-content">
+      <div class="premium-text">
+        <h2>Go Premium</h2>
+        <p>Get priority listings, early access to new groups, and instant Telegram notifications</p>
+      </div>
+      <button mat-raised-button class="warn">Upgrade for $5/month</button>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Upcoming Concerts Section -->
+  <div class="section-container">
+    <div class="section-header">
+      <h2 class="section-title">Upcoming Concerts in Singapore</h2>
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Search concerts</mat-label>
+        <input matInput placeholder="Artist or venue" (input)="filterConcerts($event)">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <!-- Using Angular @if for conditional rendering -->
+     @if (displayedConcerts && displayedConcerts.length > 0) {
+      <div class="concert-grid">
+        @for (concert of displayedConcerts; track concert.artist + concert.dates[0]) {
+          <mat-card class="concert-card">
+            <img class="card-img" mat-card-image [src]="concert.image_url_320" [alt]="concert.artist + ' Concert'">
+            <mat-card-content>
+              <h3 class="card-title">{{ concert.artist }}</h3>
+              <p class="card-info">
+                <mat-icon>calendar_today</mat-icon> {{ getDateList(concert) }}
+              </p>
+              <p class="card-info">
+                <mat-icon>location_on</mat-icon> {{ concert.venue }}
+              </p>
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-button>View Details</button>
+              <button mat-button class="accent">Join Group</button>
+            </mat-card-actions>
+          </mat-card>
+        }
+      </div>
+
+      @if (hasMoreConcerts()) {
+        <div class="view-more-container">
+          <button mat-stroked-button (click)="viewMore()">View More Concerts</button>
+        </div>
+      }
+     } @else {
+      <div class="no-concerts-container">
+        <mat-icon class="no-concerts-icon">event_busy</mat-icon>
+        <h3 class="no-concerts-title">No Upcoming Concerts</h3>
+        <p class="no-concerts-subtitle">Check back soon for upcoming concerts in Singapore</p>
+        <button mat-raised-button class="create-group-btn">Create a Concert Group</button>
+      </div>
+     }
+
+  <!-- Features Section -->
+  <div class="features-section">
+    <h2 class="section-title">Why Use ConcertSync?</h2>
+    <div class="features-grid">
+      <div class="feature-item">
+        <mat-icon class="feature-icon">group</mat-icon>
+        <h3>Find Concert Groups</h3>
+        <p>Connect with other fans and attend concerts together</p>
+      </div>
+      <div class="feature-item">
+        <mat-icon class="feature-icon">queue_music</mat-icon>
+        <h3>Explore Setlists</h3>
+        <p>Review past setlists to prepare for upcoming shows</p>
+      </div>
+      <div class="feature-item">
+        <mat-icon class="feature-icon">shopping_cart</mat-icon>
+        <h3>Marketplace</h3>
+        <p>Buy and sell concert merchandise and tickets safely</p>
+      </div>
+      <div class="feature-item">
+        <mat-icon class="feature-icon">notifications</mat-icon>
+        <h3>Stay Updated</h3>
+        <p>Get notified about group activities and concert updates</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>ConcertSync</h3>
+        <p>Connecting music fans in Singapore since 2025</p>
+      </div>
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <a href="#">Home</a>
+        <a href="#">Groups</a>
+        <a href="#">Setlists</a>
+        <a href="#">Marketplace</a>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>&copy; 2025 ConcertSync. All rights reserved.</p>
+    </div>
+  </footer>
+</div>
