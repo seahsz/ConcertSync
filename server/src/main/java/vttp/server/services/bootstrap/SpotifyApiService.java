@@ -79,9 +79,9 @@ public class SpotifyApiService {
 
         String uri = UriComponentsBuilder
             .fromUriString(BASE_URL + "/search")
-            .queryParam("q", artistName.replaceAll(" ", "+"))
+            .queryParam("q", artistName.toLowerCase().replaceAll(" ", "+"))
             .queryParam("type", "artist")
-            .queryParam("limit", 3) // Set to 3, gave better search results
+            .queryParam("limit", 1) // Set to 1, gave better search results
             .toUriString();
 
         System.out.println(uri);

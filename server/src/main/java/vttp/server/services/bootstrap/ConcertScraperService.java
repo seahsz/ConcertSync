@@ -66,7 +66,7 @@ public class ConcertScraperService {
         logger.info("Initialized not_found artist with ID: %d".formatted(notFoundArtistId));
 
         // Run the scraper on startup
-        // scrapeUpcomingConcert(); // TO UNCOMMENT
+        scrapeUpcomingConcert();
     }
 
     @Scheduled(cron = "0 0 0 * * *") // Runs daily at midnight

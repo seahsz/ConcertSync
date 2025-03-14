@@ -29,4 +29,12 @@ public class RegisterRequest {
     public String getPhoneNumber() { return phoneNumber; }
     public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
     
+    @Override
+    public String toString() {
+        return "RegisterRequest [username=" + username + ", email=" + email + ", password=" + password + ", name="
+                + name + ", birthDate=" + birthDate + ", phoneNumber=" + phoneNumber + "]";
+    }
+
+    
+    
 }

@@ -11,6 +11,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 // Components
 import { AppComponent } from './app.component';
@@ -21,15 +25,19 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { ConcertDetailsComponent } from './components/concert-details/concert-details.component';
 import { provideHttpClient } from '@angular/common/http';
 import { ConcertService } from './services/concert.service';
+import { RegisterComponent } from './components/register/register.component';
+import { AuthService } from './services/auth.service';
+import { LoginComponent } from './components/login/login.component';
 
 // Routes configuration
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
+  { path: '', component: HomeComponent },
+  { path: 'register', component: RegisterComponent },
   { path: 'groups', component: GroupFinderComponent },
   { path: 'setlists', component: SetlistExplorerComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'concerts/:id', component: ConcertDetailsComponent },
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '', redirectTo: '/', pathMatch: 'full' },
 ];
 
 @NgModule({
@@ -39,7 +47,9 @@ const routes: Routes = [
     GroupFinderComponent,
     SetlistExplorerComponent,
     ProfileComponent,
-    ConcertDetailsComponent
+    ConcertDetailsComponent,
+    RegisterComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -53,9 +63,13 @@ const routes: Routes = [
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
-    MatIconModule
+    MatIconModule,
+    MatSnackBarModule,
+    MatDatepickerModule,
+    MatProgressSpinnerModule,
+    MatNativeDateModule
   ],
-  providers: [provideHttpClient(), ConcertService],
+  providers: [provideHttpClient(), ConcertService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

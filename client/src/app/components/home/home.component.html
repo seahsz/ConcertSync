@@ -14,8 +14,9 @@
     </div>
     <span class="toolbar-spacer"></span>
     <div class="auth-buttons">
-      <button mat-button>Sign In</button>
-      <button mat-raised-button class="accent">Sign Up</button>
+      
+      <button mat-button [routerLink]="['/login']">Sign In</button>
+      <button mat-raised-button class="accent" [routerLink]="['/register']">Sign Up</button>
     </div>
   </mat-toolbar>
 

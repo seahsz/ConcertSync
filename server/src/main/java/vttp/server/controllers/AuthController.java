@@ -34,6 +34,7 @@ public class AuthController {
     public ResponseEntity<String> register(@RequestBody RegisterRequest request ) {
         try {
             logger.info(">>> Attempting to register user");
+            logger.info(request.toString());
             authSvc.register(request);
             return ResponseEntity.ok(new SuccessResponse("Registration successful. Please verify your email").toJson().toString());
         } catch (EmailUnverifiedException ex) {
