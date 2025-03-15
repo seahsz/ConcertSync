@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import vttp.server.models.angularDto.Concert;
+import vttp.server.utilities.StringSimilarity;
 
 @Repository
 public class ConcertRepository {
@@ -48,11 +49,43 @@ public class ConcertRepository {
             WHERE cd.date >= ?
             """;
 
+    private static final String SQL_SELECT_ID_AND_VENUE = """
+            SELECT id, venue FROM concerts
+            WHERE artist = ? AND country = ?
+            """;
+
+    private double SIMILARITY_THRESHOLD = 0.8;
+
     public Optional<Long> getId(String artist, String venue, String country) {
         List<Long> results = template.query(SQL_SELECT_ID, 
             (rs, rowNum) -> rs.getLong("id"),
             artist, venue, country);
-        return results.isEmpty() ? Optional.empty() : Optional.of(results.get(0));
+    
+        if (!results.isEmpty())
+            return Optional.of(results.get(0));
+
+        // If no exact match, try to find venues with similar names
+        List<Map<String, Object>> venues = template.queryForList(SQL_SELECT_ID_AND_VENUE, artist, country);
+
+        // Check for similar venues -> in case of weird changes to venue name in setlist.fm
+        // Prevents insertion of new concert for essentially the same concert
+        // Example: Phil's Studio vs Phil Studio
+        for (Map<String, Object> row : venues) {
+            String existingVenue = (String) row.get("venue");
+
+            double similarity = StringSimilarity.calculateSimilarity(
+                venue.toLowerCase(), existingVenue.toLowerCase()
+            );
+
+            if (similarity > SIMILARITY_THRESHOLD) {
+                logger.info("Found similar venue: %s matches %s with similarity %s".formatted(
+                    venue, existingVenue, similarity
+                ));
+                return Optional.of((Long) row.get("id"));
+            }
+        }
+
+        return Optional.empty();
     }
 
     public void insertConcert(String artist, String venue, String country, String tour, Long artistId) {

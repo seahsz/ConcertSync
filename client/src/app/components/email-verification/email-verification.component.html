@@ -1,0 +1,56 @@
+<div class="concert-sync-container">
+    <!-- Header with Navigation -->
+    <mat-toolbar class="header-toolbar">
+      <div class="logo-container">
+        <img src="/images/concertsync-logo.png" alt="ConcertSync Logo" class="logo-img">
+        <span class="logo-text">ConcertSync</span>
+      </div>
+      <span class="toolbar-spacer"></span>
+      <div class="nav-links">
+        <a mat-button [routerLink]="['/']" class="nav-link">Home</a>
+        <a mat-button [routerLink]="['/groups']" class="nav-link">Groups</a>
+        <a mat-button [routerLink]="['/setlists']" class="nav-link">Setlists</a>
+      </div>
+      <span class="toolbar-spacer"></span>
+    </mat-toolbar>
+  
+    <!-- Verification Content -->
+    <div class="verification-container">
+      <mat-card class="verification-card">
+        <mat-card-content class="verification-content">
+          <!-- Loading State -->
+          @if (verificationState === 'loading') {
+            <div class="verification-loading">
+              <mat-spinner diameter="50"></mat-spinner>
+              <h2>Verifying Your Email...</h2>
+              <p>Please wait while we verify your email address.</p>
+            </div>
+          }
+  
+          <!-- Success State -->
+          @if (verificationState === 'success') {
+            <div class="verification-success">
+              <mat-icon class="success-icon">check_circle</mat-icon>
+              <h2>Email Verified Successfully!</h2>
+              <p>Your email has been verified. You can now log in to your account.</p>
+              <p class="redirect-message">You will be redirected to the login page in a few seconds...</p>
+              <button mat-raised-button (click)="goToLogin()">Go to Login</button>
+            </div>
+          }
+  
+          <!-- Error State -->
+          @if (verificationState === 'error') {
+            <div class="verification-error">
+              <mat-icon class="error-icon">error</mat-icon>
+              <h2>Verification Failed</h2>
+              <p>{{ errorMessage }}</p>
+              <div class="error-actions">
+                <button mat-raised-button [routerLink]="['/login']">Go to Login</button>
+                <button mat-raised-button [routerLink]="['/']">Return to Home</button>
+              </div>
+            </div>
+          }
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>

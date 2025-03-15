@@ -106,7 +106,7 @@ public class SpotifyApiService {
             newArtist.setImageUrl640(images.getJsonObject(0).getString("url"));
             newArtist.setImageUrl320(images.getJsonObject(1).getString("url"));
             newArtist.setImageUrl160(images.getJsonObject(2).getString("url"));
-            logger.info("Fetched artist: %s".formatted(newArtist.toString()));
+            logger.info("Fetched artist: %s".formatted(newArtist.getName()));
             return Optional.of(newArtist);
         } catch (Exception ex) {
             ex.printStackTrace();

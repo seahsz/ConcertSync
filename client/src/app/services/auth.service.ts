@@ -28,8 +28,8 @@ export class AuthService {
     );
   }
 
-  verifyEmail(token: string): Observable<any> {
-    return this.http.get(`${this.BASE_URL}/verify-email?token=${token}`).pipe(
+  verifyEmail(token: string): Observable<AuthResponse> {
+    return this.http.get<AuthResponse>(`${this.BASE_URL}/verify-email?token=${token}`).pipe(
       catchError(error => {
         if (error.error) {
           return throwError(() => error.error as AuthResponse);

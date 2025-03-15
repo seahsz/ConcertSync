@@ -28,11 +28,13 @@ import { ConcertService } from './services/concert.service';
 import { RegisterComponent } from './components/register/register.component';
 import { AuthService } from './services/auth.service';
 import { LoginComponent } from './components/login/login.component';
+import { EmailVerificationComponent } from './components/email-verification/email-verification.component';
 
 // Routes configuration
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'verify-email', component: EmailVerificationComponent },
   { path: 'groups', component: GroupFinderComponent },
   { path: 'setlists', component: SetlistExplorerComponent },
   { path: 'profile', component: ProfileComponent },
@@ -49,7 +51,8 @@ const routes: Routes = [
     ProfileComponent,
     ConcertDetailsComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    EmailVerificationComponent
   ],
   imports: [
     BrowserModule,

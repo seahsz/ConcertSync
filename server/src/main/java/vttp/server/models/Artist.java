@@ -23,4 +23,6 @@ public class Artist {
     public String getImageUrl160() { return imageUrl160; }
     public void setImageUrl160(String imageUrl160) { this.imageUrl160 = imageUrl160; }
 
+    
+
 }

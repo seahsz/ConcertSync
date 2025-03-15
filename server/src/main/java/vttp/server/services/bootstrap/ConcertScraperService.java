@@ -104,7 +104,6 @@ public class ConcertScraperService {
                     String month = e.select(".month").text();
                     String day = e.select(".day").text();
                     String year = e.select(".year").text();
-                    System.out.println("artist name from setlist.fm: %s".formatted(artist));
                     LocalDate concertDate = LocalDate.parse(String.format("%s %s %s", day, month, year),
                             DATE_FORMATTER);
                     
@@ -140,9 +139,11 @@ public class ConcertScraperService {
 
                     // Check if concert exists
                     Long concertId;
+                    System.out.println("Artist: " + artist + " venue: " + venue + " country: " + country);
                     Optional<Long> optId = concertRepo.getId(artist, venue, country);
                     // Don't exist => Insert new concert
                     if (optId.isEmpty()) {
+                        System.out.println(">>> Attemping to insert artist: " + artist + " with artistId: " + artistId);
                         concertRepo.insertConcert(artist, venue, country, tour, artistId);
                         concertId = concertRepo.getLastInsertId();
                     } else {

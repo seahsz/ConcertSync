@@ -33,7 +33,7 @@ public class AuthService {
     @Autowired
     private JwtUtil jwtUtil;
 
-    private static final String BASE_URL = "http://localhost:8080/api/auth/verify-email?token=";
+    private static final String BASE_URL = "http://localhost:4200/verify-email?token="; // TO CHANGE
 
     public void register(RegisterRequest rr) {
         if (userRepo.findByEmail(rr.getEmail()).isPresent()) {
