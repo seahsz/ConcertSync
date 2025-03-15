@@ -55,8 +55,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.registerSub.unsubscribe();
-    this.passwordSub?.unsubscribe();
+    if (this.registerSub)
+        this.registerSub.unsubscribe();
+    if (this.passwordSub)
+        this.passwordSub.unsubscribe();
   }
 
   private phoneNumberValidator(control: AbstractControl): ValidationErrors | null {

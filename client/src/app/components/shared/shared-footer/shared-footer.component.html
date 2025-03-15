@@ -1,0 +1,38 @@
+<footer class="app-footer">
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3>ConcertSync</h3>
+            <p>Connecting music fans in Singapore since 2025</p>
+            <div class="social-icons">
+                <a href="#" class="social-icon" aria-label="Facebook">
+                    <mat-icon>facebook</mat-icon>
+                </a>
+                <a href="#" class="social-icon" aria-label="Twitter">
+                    <mat-icon>twitter</mat-icon>
+                </a>
+                <a href="#" class="social-icon" aria-label="Instagram">
+                    <mat-icon>instagram</mat-icon>
+                </a>
+            </div>
+        </div>
+
+        <div class="footer-section">
+            <h3>Quick Links</h3>
+            <a [routerLink]="['/']">Home</a>
+            <a [routerLink]="['/groups']">Groups</a>
+            <a [routerLink]="['/setlists']">Setlists</a>
+        </div>
+
+        <div class="footer-section">
+            <h3>Help & Resources</h3>
+            <a [routerLink]="['/faq']">FAQ</a>
+            <a [routerLink]="['/contact']">Contact Us</a>
+            <a [routerLink]="['/privacy']">Privacy Policy</a>
+            <a [routerLink]="['/terms']">Terms of Service</a>
+        </div>
+    </div>
+
+    <div class="copyright">
+        <p>&copy; {{ currentYear }} ConcertSync. All rights reserved.</p>
+    </div>
+</footer>

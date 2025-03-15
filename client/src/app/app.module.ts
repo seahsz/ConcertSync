@@ -15,6 +15,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatMenuModule } from '@angular/material/menu';
 
 // Components
 import { AppComponent } from './app.component';
@@ -29,6 +31,8 @@ import { RegisterComponent } from './components/register/register.component';
 import { AuthService } from './services/auth.service';
 import { LoginComponent } from './components/login/login.component';
 import { EmailVerificationComponent } from './components/email-verification/email-verification.component';
+import { SharedNavbarComponent } from './components/shared/shared-navbar/shared-navbar.component';
+import { SharedFooterComponent } from './components/shared/shared-footer/shared-footer.component';
 
 // Routes configuration
 const routes: Routes = [
@@ -39,7 +43,7 @@ const routes: Routes = [
   { path: 'setlists', component: SetlistExplorerComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'concerts/:id', component: ConcertDetailsComponent },
-  { path: '', redirectTo: '/', pathMatch: 'full' },
+  { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 
 @NgModule({
@@ -52,7 +56,9 @@ const routes: Routes = [
     ConcertDetailsComponent,
     RegisterComponent,
     LoginComponent,
-    EmailVerificationComponent
+    EmailVerificationComponent,
+    SharedNavbarComponent,
+    SharedFooterComponent
   ],
   imports: [
     BrowserModule,
@@ -70,7 +76,9 @@ const routes: Routes = [
     MatSnackBarModule,
     MatDatepickerModule,
     MatProgressSpinnerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatDividerModule,
+    MatMenuModule
   ],
   providers: [provideHttpClient(), ConcertService, AuthService],
   bootstrap: [AppComponent]

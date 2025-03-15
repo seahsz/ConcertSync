@@ -1,24 +1,6 @@
 <div class="concert-sync-container">
   <!-- Header with Navigation -->
-  <mat-toolbar class="header-toolbar">
-    <div class="logo-container">
-      <img src="/images/concertsync-logo.png" alt="ConcertSync Logo" class="logo-img">
-      <span class="logo-text">ConcertSync</span>
-    </div>
-    <span class="toolbar-spacer"></span>
-    <div class="nav-links">
-      <a mat-button class="nav-link active">Home</a>
-      <a mat-button class="nav-link">Groups</a>
-      <a mat-button class="nav-link">Setlists</a>
-      <a mat-button class="nav-link">Marketplace</a>
-    </div>
-    <span class="toolbar-spacer"></span>
-    <div class="auth-buttons">
-      
-      <button mat-button [routerLink]="['/login']">Sign In</button>
-      <button mat-raised-button class="accent" [routerLink]="['/register']">Sign Up</button>
-    </div>
-  </mat-toolbar>
+  <app-shared-navbar></app-shared-navbar>
 
   <!-- Hero Section -->
   <div class="hero-section">
@@ -121,23 +103,7 @@
     </div>
   </div>
 
-  <!-- Footer -->
-  <footer class="app-footer">
-    <div class="footer-content">
-      <div class="footer-section">
-        <h3>ConcertSync</h3>
-        <p>Connecting music fans in Singapore since 2025</p>
-      </div>
-      <div class="footer-section">
-        <h3>Quick Links</h3>
-        <a href="#">Home</a>
-        <a href="#">Groups</a>
-        <a href="#">Setlists</a>
-        <a href="#">Marketplace</a>
-      </div>
-    </div>
-    <div class="copyright">
-      <p>&copy; 2025 ConcertSync. All rights reserved.</p>
-    </div>
-  </footer>
 </div>
+
+<!-- Footer -->
+<app-shared-footer></app-shared-footer>

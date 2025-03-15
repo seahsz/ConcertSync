@@ -37,8 +37,10 @@ export class EmailVerificationComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.routeSubscription.unsubscribe();
-    this.verifySubscription.unsubscribe();
+    if (this.routeSubscription)
+        this.routeSubscription.unsubscribe();
+    if (this.verifySubscription)
+        this.verifySubscription.unsubscribe();
   }
 
   private verifyEmail(token: string): void {
