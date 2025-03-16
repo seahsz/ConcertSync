@@ -6,74 +6,44 @@
     margin: 0 auto;
 }
 
-/* Header Styles */
-.header-toolbar {
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    padding: 0 24px;
-}
-
-.logo-container {
-    display: flex;
-    align-items: center;
-}
-
-.logo-img {
-    margin-right: 8px;
-    height: 40px;
-    width: 40px;
-}
-
-.logo-text {
-    font-size: 24px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-}
-
-.toolbar-spacer {
-    flex: 1 1 auto;
-}
-
-.nav-links {
-    display: flex;
-}
-
-.nav-link {
-    margin: 0 8px;
-    font-weight: 500;
-}
-
-.nav-link.active {
-    border-bottom: 2px solid #fff;
-}
-
-.auth-buttons button {
-    margin-left: 8px;
-}
-
-/* Hero Section */
+/* Hero Section with Background Image */
 .hero-section {
-    display: flex;
-    padding: 64px 48px;
-    background: linear-gradient(135deg, #673ab7 0%, #9c27b0 100%);
+    position: relative;
+    height: 550px;
+    background-image: url('/images/concert.jpg');
+    background-size: cover;
+    background-position: center center;
     color: white;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(103, 58, 183, 0.85) 0%, rgba(156, 39, 176, 0.75) 100%);
+    display: flex;
     align-items: center;
+    padding: 0 48px;
 }
 
 .hero-content {
-    flex: 1;
-    padding-right: 48px;
+    max-width: 600px;
 }
 
 .hero-title {
-    font-size: 2.5rem;
+    font-size: 3rem;
     font-weight: 700;
     margin-bottom: 16px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .hero-subtitle {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     margin-bottom: 32px;
     opacity: 0.9;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .hero-actions {
@@ -86,16 +56,49 @@
     font-weight: 500;
 }
 
-.hero-image {
-    flex: 1;
-    display: flex;
-    justify-content: center;
+/* Add a subtle animation to bring focus to the CTA buttons */
+.hero-button.accent {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.hero-img {
-    max-width: 100%;
-    border-radius: 8px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+.hero-button.accent:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 960px) {
+    .hero-section {
+        height: 500px;
+    }
+
+    .hero-title {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .hero-overlay {
+        padding: 0 24px;
+        text-align: center;
+        justify-content: center;
+    }
+
+    .hero-section {
+        height: 450px;
+    }
+
+    .hero-title {
+        font-size: 2rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
+
+    .hero-actions {
+        justify-content: center;
+    }
 }
 
 /* Premium Banner */

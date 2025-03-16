@@ -107,7 +107,7 @@
           </mat-form-field>
 
           <div class="form-actions">
-            <button mat-raised-button type="submit" class="submit-button" [disabled]="registerForm.invalid">
+            <button mat-raised-button type="submit" class="submit-button" [disabled]="registerForm.invalid && submitting">
               @if (!submitting) {
                 <span>Create Account</span>
               } @else {

@@ -88,4 +88,15 @@ public class User {
         return user;
     }
 
+    @Override
+    public String toString() {
+        return "User [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password + ", name="
+                + name + ", birthDate=" + birthDate + ", profilePictureUrl=" + profilePictureUrl + ", phoneNumber="
+                + phoneNumber + ", emailVerified=" + emailVerified + ", emailVerificationToken="
+                + emailVerificationToken + ", premiumStatus=" + premiumStatus + ", premiumExpiry=" + premiumExpiry
+                + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", lastNameUpdate=" + lastNameUpdate + "]";
+    }
+
+    
+
 }

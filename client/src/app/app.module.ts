@@ -17,6 +17,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatMenuModule } from '@angular/material/menu';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 // Components
 import { AppComponent } from './app.component';
@@ -25,7 +26,7 @@ import { GroupFinderComponent } from './components/group-finder/group-finder.com
 import { SetlistExplorerComponent } from './components/setlist-explorer/setlist-explorer.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ConcertDetailsComponent } from './components/concert-details/concert-details.component';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { ConcertService } from './services/concert.service';
 import { RegisterComponent } from './components/register/register.component';
 import { AuthService } from './services/auth.service';
@@ -33,12 +34,15 @@ import { LoginComponent } from './components/login/login.component';
 import { EmailVerificationComponent } from './components/email-verification/email-verification.component';
 import { SharedNavbarComponent } from './components/shared/shared-navbar/shared-navbar.component';
 import { SharedFooterComponent } from './components/shared/shared-footer/shared-footer.component';
+import { authInterceptor } from './services/auth.interceptor';
+import { UserProfileService } from './services/user-profile.service';
 
 // Routes configuration
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'verify-email', component: EmailVerificationComponent },
+  { path: 'login', component: LoginComponent },
   { path: 'groups', component: GroupFinderComponent },
   { path: 'setlists', component: SetlistExplorerComponent },
   { path: 'profile', component: ProfileComponent },
@@ -78,9 +82,11 @@ const routes: Routes = [
     MatProgressSpinnerModule,
     MatNativeDateModule,
     MatDividerModule,
-    MatMenuModule
+    MatMenuModule,
+    MatCheckboxModule
   ],
-  providers: [provideHttpClient(), ConcertService, AuthService],
+  providers: [provideHttpClient(withInterceptors([authInterceptor])), ConcertService, AuthService, UserProfileService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

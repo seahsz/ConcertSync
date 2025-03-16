@@ -15,7 +15,6 @@ export class SharedNavbarComponent implements OnInit {
 
   protected isLoggedIn = false;
   protected userProfile: any = null;
-  protected showUserMenu = false;
 
   ngOnInit(): void {
     this.isLoggedIn = this.authSvc.isLoggedIn();
@@ -26,24 +25,20 @@ export class SharedNavbarComponent implements OnInit {
       // For now use placeholder information
       this.userProfile = {
         username: "User",
-        profilePictureUrl: "/images/blank_profile_pic_160px"
+        name: "Shun Zhou",
+        email: "seahsz@gmail.com",
+        profilePictureUrl: "/images/blank_profile_pic_160px.png"
       };
-  }
-
-  toggleUserMenu(): void {
-    this.showUserMenu = !this.showUserMenu;
   }
 
   navigateTo(route: string): void {
     this.router.navigate([route]);
-    this.showUserMenu = false;
   }
 
   logout(): void {
     this.authSvc.logout();
     this.isLoggedIn = false;
     this.userProfile = null;
-    this.showUserMenu = false;
     this.router.navigate(['/']);
   }
 

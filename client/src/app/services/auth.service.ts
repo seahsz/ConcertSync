@@ -42,8 +42,8 @@ export class AuthService {
     );
   }
 
-  login(loginData: LoginRequest): Observable<any> {
-    return this.http.post(`${this.BASE_URL}/login`, loginData).pipe(
+  login(loginData: LoginRequest): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.BASE_URL}/login`, loginData).pipe(
       catchError(error => {
         if (error.error) {
           return throwError(() => error.error as AuthResponse);

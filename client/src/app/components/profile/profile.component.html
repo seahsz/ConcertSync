@@ -1,1 +1,197 @@
-<p>profile works!</p>
+<div class="concert-sync-container">
+    <!-- Shared Navbar -->
+    <app-shared-navbar></app-shared-navbar>
+  
+    <!-- Profile Content -->
+    <div class="profile-container">
+      <!-- Loading State -->
+      @if (loading) {
+        <div class="loading-container">
+          <mat-spinner diameter="50"></mat-spinner>
+          <p>Loading your profile...</p>
+        </div>
+      } @else if (error) {
+        <div class="error-container">
+          <mat-icon class="error-icon">error</mat-icon>
+          <h2>Failed to load profile</h2>
+          <p>There was an error loading your profile. Please try again.</p>
+          <button mat-raised-button color="primary" (click)="loadUserProfile()">Retry</button>
+        </div>
+      } @else {
+        <div class="profile-content">
+          <!-- Profile Header -->
+          <div class="profile-header">
+            <div class="profile-avatar">
+              <img [src]="userProfile?.profile_picture_url || '/images/blank_profile_pic_320px'" alt="Profile Picture">
+            </div>
+            <div class="profile-info">
+              <h1>{{ userProfile?.name }}</h1>
+              <p class="username">&#64;{{ userProfile?.username }}</p>
+              <div class="profile-stats">
+                <div class="stat">
+                  <span class="stat-value">12</span>
+                  <span class="stat-label">Concerts</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value">5</span>
+                  <span class="stat-label">Groups</span>
+                </div>
+                <div class="stat">
+                  @if (userProfile?.premium_status) {
+                    <span class="premium-badge">Premium</span>
+                  } @else {
+                    <button mat-stroked-button class="upgrade-button warn">Upgrade to Premium</button>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <!-- Profile Navigation -->
+          <div class="profile-nav">
+            <button mat-button [class.active]="activeTab === 'profile'" (click)="setActiveTab('profile')">
+              <mat-icon>person</mat-icon>
+              <span>Profile</span>
+            </button>
+            <button mat-button [class.active]="activeTab === 'concerts'" (click)="setActiveTab('concerts')">
+              <mat-icon>event</mat-icon>
+              <span>My Concerts</span>
+            </button>
+            <button mat-button [class.active]="activeTab === 'groups'" (click)="setActiveTab('groups')">
+              <mat-icon>group</mat-icon>
+              <span>My Groups</span>
+            </button>
+            <button mat-button [class.active]="activeTab === 'settings'" (click)="setActiveTab('settings')">
+              <mat-icon>settings</mat-icon>
+              <span>Settings</span>
+            </button>
+          </div>
+  
+          <!-- Profile Tab Content -->
+          <div class="profile-tab-content">
+            <!-- Profile Info Tab -->
+            @if (activeTab === 'profile') {
+              <div class="profile-info-tab">
+                <h2>Profile Information</h2>
+                
+                <div class="info-card">
+                  <div class="info-item">
+                    <span class="info-label">Full Name</span>
+                    <span class="info-value">{{ userProfile?.name }}</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="info-label">Username</span>
+                    <span class="info-value">{{ userProfile?.username }}</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="info-label">Email</span>
+                    <span class="info-value">{{ userProfile?.email }}</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="info-label">Phone</span>
+                    <div class="info-value-editable">
+                      @if (!isEditingPhone) {
+                        <span>{{ userProfile?.phone_number || 'Not provided' }}</span>
+                        <button mat-icon-button color="primary" (click)="toggleEditPhone()" aria-label="Edit phone number">
+                          <mat-icon>edit</mat-icon>
+                        </button>
+                      } @else {
+                        <form [formGroup]="phoneForm" (ngSubmit)="updatePhoneNumber()">
+                          <mat-form-field appearance="outline">
+                            <mat-label>Phone Number</mat-label>
+                            <input matInput formControlName="phoneNumber" placeholder="+6598765432">
+                            <mat-error *ngIf="phoneForm.get('phoneNumber')?.hasError('pattern')">
+                              Phone number must start with +65 followed by 8 digits (first digit must be 8 or 9)
+                            </mat-error>
+                          </mat-form-field>
+                          <div class="form-actions">
+                            <button mat-button type="button" (click)="toggleEditPhone()">Cancel</button>
+                            <button mat-raised-button color="primary" type="submit" [disabled]="phoneForm.invalid || submitting">
+                              @if (submitting) {
+                                <mat-spinner diameter="20"></mat-spinner>
+                              } @else {
+                                Save
+                              }
+                            </button>
+                          </div>
+                        </form>
+                      }
+                    </div>
+                  </div>
+                  <div class="info-item">
+                    <span class="info-label">Member Since</span>
+                    <span class="info-value">{{ userProfile?.created_at | date:'mediumDate' }}</span>
+                  </div>
+                </div>
+                
+                <div class="action-buttons">
+                  <button mat-raised-button class="warn" (click)="logout()">
+                    <mat-icon>logout</mat-icon>
+                    <span>Logout</span>
+                  </button>
+                </div>
+              </div>
+            }
+  
+            <!-- My Concerts Tab -->
+            @if (activeTab === 'concerts') {
+              <div class="concerts-tab">
+                <h2>My Concerts</h2>
+                
+                <div class="empty-state">
+                  <mat-icon>event_busy</mat-icon>
+                  <h3>No Concerts Yet</h3>
+                  <p>You haven't joined any concert groups yet.</p>
+                  <button mat-raised-button color="primary" [routerLink]="['/groups']">
+                    <mat-icon>search</mat-icon>
+                    <span>Find Concert Groups</span>
+                  </button>
+                </div>
+              </div>
+            }
+  
+            <!-- My Groups Tab -->
+            @if (activeTab === 'groups') {
+              <div class="groups-tab">
+                <h2>My Groups</h2>
+                
+                <div class="empty-state">
+                  <mat-icon>group_off</mat-icon>
+                  <h3>No Groups Yet</h3>
+                  <p>You haven't joined any groups yet.</p>
+                  <button mat-raised-button color="primary" [routerLink]="['/groups']">
+                    <mat-icon>group_add</mat-icon>
+                    <span>Find Groups</span>
+                  </button>
+                </div>
+              </div>
+            }
+  
+            <!-- Settings Tab -->
+            @if (activeTab === 'settings') {
+              <div class="settings-tab">
+                <h2>Account Settings</h2>
+                
+                <div class="info-card">
+                  <p class="settings-message">
+                    <mat-icon>info</mat-icon>
+                    You can update your phone number on the Profile tab. Other profile settings will be available in future updates.
+                  </p>
+                  
+                  <h3 class="section-title">Delete Account</h3>
+                  <p class="warning-text">Deleting your account is permanent and cannot be undone.</p>
+                  <button mat-stroked-button class="warn">
+                    <mat-icon>delete_forever</mat-icon>
+                    <span>Delete Account</span>
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+  
+  <!-- Shared Footer -->
+  <app-shared-footer></app-shared-footer>

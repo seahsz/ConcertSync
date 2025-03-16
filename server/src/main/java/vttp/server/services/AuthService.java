@@ -35,6 +35,8 @@ public class AuthService {
 
     private static final String BASE_URL = "http://localhost:4200/verify-email?token="; // TO CHANGE
 
+    private static final String DEFAULT_PROFILE_PICTURE_URL = "/images/blank_profile_pic_320px.png";
+
     public void register(RegisterRequest rr) {
         if (userRepo.findByEmail(rr.getEmail()).isPresent()) {
             throw new EmailUnverifiedException();
@@ -48,6 +50,7 @@ public class AuthService {
         user.setEmail(rr.getEmail());
         user.setPassword(passwordEncoder.encode(rr.getPassword()));
         user.setName(rr.getName());
+        user.setProfilePictureUrl(DEFAULT_PROFILE_PICTURE_URL);
         user.setBirthDate(rr.getBirthDate());
         user.setPhoneNumber(rr.getPhoneNumber());
         user.setEmailVerified(false);

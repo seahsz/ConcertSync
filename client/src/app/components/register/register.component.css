@@ -76,51 +76,6 @@ mat-card-subtitle {
   width: 18px;
 }
 
-.password-match-error {
-  margin-top: -8px;
-  margin-bottom: 16px;
-}
-
-/* Reuse header styles from home component */
-.header-toolbar {
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  padding: 0 24px;
-}
-
-.logo-container {
-  display: flex;
-  align-items: center;
-}
-
-.logo-img {
-  margin-right: 8px;
-  height: 40px;
-  width: 40px;
-}
-
-.logo-text {
-  font-size: 24px;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-}
-
-.toolbar-spacer {
-  flex: 1 1 auto;
-}
-
-.nav-links {
-  display: flex;
-}
-
-.nav-link {
-  margin: 0 8px;
-  font-weight: 500;
-}
-
-.auth-buttons button {
-  margin-left: 8px;
-}
-
 /* PWA and responsive adjustments */
 @media (max-width: 600px) {
   .registration-container {

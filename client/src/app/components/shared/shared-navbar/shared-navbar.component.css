@@ -1,3 +1,4 @@
+/* Header Styles */
 .header-toolbar {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     padding: 0 24px;
@@ -39,6 +40,7 @@
     flex: 1 1 auto;
   }
   
+  /* Nav Links */
   .nav-links {
     display: flex;
     justify-content: center;
@@ -78,6 +80,7 @@
     border-radius: 2px 2px 0 0;
   }
   
+  /* Auth Buttons */
   .auth-buttons {
     display: flex;
     align-items: center;
@@ -99,25 +102,32 @@
     position: relative;
   }
   
-  .user-profile-button {
-    display: flex;
-    align-items: center;
-    padding: 4px 8px;
-    border-radius: 24px;
-    transition: background-color 0.2s ease;
-  }
-  
-  .user-profile-button:hover {
-    background-color: rgba(0, 0, 0, 0.05);
-  }
-  
-  .user-avatar {
-    width: 36px;
-    height: 36px;
+  /* Avatar button styling */
+  .avatar-button {
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    overflow: hidden;
-    margin-right: 8px;
+    padding: 0;
     border: 2px solid #f0e6ff;
+    background-color: #f5f5f5;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: none;
+    flex-shrink: 0;
+  }
+  
+  .avatar-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(103, 58, 183, 0.2);
+    border-color: #673ab7;
+  }
+  
+  .avatar-button:focus {
+    outline: none;
   }
   
   .profile-picture {
@@ -126,43 +136,89 @@
     object-fit: cover;
   }
   
-  .username {
-    font-weight: 500;
-    margin-right: 4px;
+  /* Custom Menu Styling */
+  ::ng-deep .mat-mdc-menu-panel.user-menu-panel {
+    min-width: 220px !important;
+    max-width: 280px !important;
+    overflow: hidden !important;
+    border-radius: 8px !important;
+    margin-top: 8px !important;
+  }
+
+  ::ng-deep .mat-mdc-menu-panel.user-menu-panel .mat-mdc-menu-content {
+    padding: 0 !important; 
   }
   
-  .user-dropdown {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    width: 200px;
-    background-color: white;
-    border-radius: 4px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    z-index: 1000;
-    margin-top: 8px;
+  ::ng-deep .mat-mdc-menu-panel.user-menu-panel .mat-divider {
+    margin: 0 !important;
   }
   
-  .user-dropdown button {
+  /* User info header styling */
+  ::ng-deep .user-info-header {
+    padding: 28px 16px !important; /* Reduced padding */
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+    background-color: #4a148c !important; /* Darker purple for better contrast */
+    height: auto !important;
+    min-height: unset !important;
+    color: white !important;
+    opacity: 1 !important;
+    cursor: default !important;
+  }
+  
+  /* Remove hover effect from disabled menu item */
+  ::ng-deep .user-info-header:hover {
+    background-color: #4a148c !important; /* Keep consistent on hover */
+  }
+  
+  ::ng-deep .menu-header-content {
     width: 100%;
-    text-align: left;
-    padding: 12px 16px;
-    display: flex;
-    align-items: center;
-    transition: background-color 0.2s ease;
   }
   
-  .user-dropdown button mat-icon {
-    margin-right: 12px;
+  ::ng-deep .user-fullname {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 4px;
+    color: white;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   
-  .user-dropdown button:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+  ::ng-deep .user-detail {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.9);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   
-  mat-divider {
-    margin: 4px 0;
+  /* Menu item styling */
+  ::ng-deep .user-menu-panel .mat-mdc-menu-item {
+    height: 48px !important;
+    line-height: 48px !important;
+  }
+  
+  ::ng-deep .user-menu-panel .mat-mdc-menu-item .mat-icon {
+    color: #673ab7;
+    margin-right: 16px !important;
+  }
+  
+  ::ng-deep .user-menu-panel .mat-mdc-menu-item:hover:not([disabled]) {
+    background-color: #f5f0ff !important;
+  }
+  
+  /* Special styling for logout item */
+  ::ng-deep .user-menu-panel .logout-item {
+    color: #d32f2f !important;
+  }
+  
+  ::ng-deep .user-menu-panel .logout-item .mat-icon {
+    color: #d32f2f !important;
+  }
+  
+  ::ng-deep .user-menu-panel .logout-item:hover {
+    background-color: #ffebee !important;
   }
   
   /* Responsive Adjustments */
@@ -188,10 +244,6 @@
     
     .auth-buttons button mat-icon {
       margin-right: 0;
-    }
-    
-    .username {
-      display: none;
     }
   }
   
@@ -230,5 +282,15 @@
     
     .nav-link.active::after {
       display: none;
+    }
+    
+    /* Adjust user menu for mobile */
+    .avatar-button {
+      width: 36px;
+      height: 36px;
+    }
+    
+    ::ng-deep .mat-mdc-menu-panel.user-menu-panel {
+      min-width: 200px !important;
     }
   }

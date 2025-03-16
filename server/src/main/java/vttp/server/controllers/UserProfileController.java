@@ -21,7 +21,7 @@ import vttp.server.services.UserProfileService;
 // Successful -> returns updated Profile
 // Unsuccessful -> User not found is caught in service layer -> handled by GlobalExceptionHandler
 @RestController
-@RequestMapping(path = "/api/protected", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/api/protected", produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserProfileController {
 
     @Autowired
@@ -34,7 +34,7 @@ public class UserProfileController {
         return ResponseEntity.ok(profile.toJson().toString());
     }
 
-    @PutMapping("/update/phone-number")
+    @PutMapping(path = "/update/phone-number", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> updatePhoneNumber(@RequestBody ProfileUpdateRequest request,
             HttpServletRequest requestHttp) {
         long id = Long.valueOf((String) requestHttp.getAttribute("id"));
@@ -43,7 +43,7 @@ public class UserProfileController {
         return ResponseEntity.ok(profile.toJson().toString());
     }
 
-    @PutMapping("/update/name")
+    @PutMapping(path = "/update/name", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> updateName(@RequestBody ProfileUpdateRequest request,
             HttpServletRequest requestHttp) {
         long id = Long.valueOf((String) requestHttp.getAttribute("id"));
