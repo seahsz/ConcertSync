@@ -25,7 +25,7 @@ public class UserProfileService {
     @Autowired
     private S3Service s3Svc;
 
-    private final static long nameUpdateRestrictionPeriod = 30;
+    private final static long nameUpdateRestrictionPeriod = 0;
 
     public ProfileResponse getProfile(long id) {
         User user = userRepo.findById(id)

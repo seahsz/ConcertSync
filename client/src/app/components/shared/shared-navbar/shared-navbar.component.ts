@@ -1,6 +1,9 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { UserProfile } from '../../../models/user-profile';
+import { UserProfileService } from '../../../services/user-profile.service';
 
 @Component({
   selector: 'app-shared-navbar',
@@ -8,27 +11,61 @@ import { Router } from '@angular/router';
   templateUrl: './shared-navbar.component.html',
   styleUrl: './shared-navbar.component.css'
 })
-export class SharedNavbarComponent implements OnInit {
+export class SharedNavbarComponent implements OnInit, OnDestroy {
 
   private router = inject(Router);
   private authSvc = inject(AuthService);
+  private profileSvc = inject(UserProfileService);
 
   protected isLoggedIn = false;
   protected userProfile: any = null;
 
+  // Subscription
+  private profileUpdateSub?: Subscription;
+
   ngOnInit(): void {
     this.isLoggedIn = this.authSvc.isLoggedIn();
 
-    // If logged in, get profile information
     if (this.isLoggedIn)
-      // TODO: fetch user profile information when profile service is implemented
-      // For now use placeholder information
-      this.userProfile = {
-        username: "User",
-        name: "Shun Zhou",
-        email: "seahsz@gmail.com",
-        profilePictureUrl: "/images/blank_profile_pic_160px.png"
-      };
+        this.loadUserProfile();
+
+    this.profileUpdateSub = this.profileSvc.profileUpdated.subscribe(
+      (updatedProfile: UserProfile) => {
+        console.log("[Shared Navbar] Navbar received profile update");
+        this.updateNavbarProfile(updatedProfile);
+      }
+    )
+  }
+
+  ngOnDestroy(): void {
+    this.profileUpdateSub?.unsubscribe();
+  }
+
+  loadUserProfile(): void {
+    this.profileSvc.getUserProfile().subscribe({
+      next: (profile) => {
+        this.updateNavbarProfile(profile);
+      },
+      error: (error) => {
+        console.error("[Shared-Navbar] Error loading profile in navbar:", error);
+        // Use placeholder for errors
+        this.userProfile = {
+          username: "User",
+          name: "Unknown User",
+          email: "",
+          profile_picture_url: "/images/blank_profile_pic_160px.png"
+        };
+      }
+    })
+  }
+
+  updateNavbarProfile(profile: UserProfile): void {
+    this.userProfile = {
+      username: profile.username,
+      name: profile.name,
+      email: profile.email,
+      profilePictureUrl: profile.profile_picture_url
+    };
   }
 
   navigateTo(route: string): void {
