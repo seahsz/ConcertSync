@@ -1,0 +1,285 @@
+.group-finder-container {
+    background: linear-gradient(135deg, #f0e6ff 0%, #e8ddff 100%);
+    min-height: calc(100vh - 64px);
+}
+
+/* Header Section */
+.finder-header {
+    background-color: #673ab7;
+    color: white;
+    padding: 48px 24px;
+    text-align: center;
+}
+
+.finder-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.finder-subtitle {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Main Content Layout */
+.finder-content {
+    display: grid;
+    grid-template-columns: minmax(300px, 1fr) 2fr;
+    gap: 24px;
+    padding: 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Panel Styling */
+.concerts-panel,
+.groups-panel {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    height: fit-content;
+}
+
+.panel-header {
+    padding: 16px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.panel-header h2 {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.panel-header.with-action {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.search-field {
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+/* Concert List Styling */
+.concerts-list {
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.concert-item {
+    display: flex;
+    padding: 16px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.concert-item:hover {
+    background-color: #f9f4ff;
+}
+
+.concert-item.active {
+    background-color: #ede7f6;
+    border-left: 4px solid #673ab7;
+}
+
+.concert-image {
+    width: 70px;
+    height: 70px;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-right: 16px;
+    flex-shrink: 0;
+}
+
+.concert-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.concert-details h3 {
+    margin: 0 0 8px 0;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.concert-details p {
+    margin: 4px 0;
+    display: flex;
+    align-items: center;
+    color: #666;
+    font-size: 14px;
+}
+
+.concert-details p mat-icon {
+    font-size: 16px;
+    height: 16px;
+    width: 16px;
+    margin-right: 8px;
+    color: #673ab7;
+}
+
+/* Groups List Styling */
+.groups-list {
+    padding: 16px;
+}
+
+.group-card {
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.group-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.group-description {
+    margin: 16px 0;
+    color: #555;
+    line-height: 1.5;
+}
+
+.group-info {
+    display: flex;
+    gap: 16px;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    color: #666;
+    font-size: 14px;
+}
+
+.info-item mat-icon {
+    font-size: 18px;
+    height: 18px;
+    width: 18px;
+    margin-right: 4px;
+    color: #673ab7;
+}
+
+/* My Groups Section */
+.my-groups-section {
+    padding: 32px 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.my-groups-section h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 24px;
+    color: #333;
+}
+
+.my-groups-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+/* Loading and Error States */
+.loading-container,
+.error-container,
+.empty-state,
+.no-selection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+    text-align: center;
+}
+
+.loading-container p {
+    margin-top: 16px;
+    color: #666;
+}
+
+.error-container mat-icon,
+.empty-state mat-icon,
+.no-selection mat-icon {
+    font-size: 48px;
+    height: 48px;
+    width: 48px;
+    color: #9e9e9e;
+    margin-bottom: 16px;
+}
+
+.error-container p,
+.empty-state p,
+.no-selection p {
+    color: #666;
+    margin-bottom: 16px;
+}
+
+.empty-state h3,
+.no-selection h3 {
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.empty-state button {
+    margin-top: 16px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 960px) {
+    .finder-content {
+        grid-template-columns: 1fr;
+    }
+
+    .finder-title {
+        font-size: 2rem;
+    }
+
+    .finder-subtitle {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .finder-header {
+        padding: 32px 16px;
+    }
+
+    .finder-content,
+    .my-groups-section {
+        padding: 16px;
+    }
+
+    .finder-title {
+        font-size: 1.8rem;
+    }
+
+    .concert-image {
+        width: 50px;
+        height: 50px;
+    }
+
+    .panel-header.with-action {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .panel-header.with-action button {
+        margin-top: 8px;
+        width: 100%;
+    }
+}

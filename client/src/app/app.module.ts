@@ -18,6 +18,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatMenuModule } from '@angular/material/menu';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatOptionModule } from '@angular/material/core';
 
 // Components
 import { AppComponent } from './app.component';
@@ -36,6 +37,9 @@ import { SharedNavbarComponent } from './components/shared/shared-navbar/shared-
 import { SharedFooterComponent } from './components/shared/shared-footer/shared-footer.component';
 import { authInterceptor } from './services/auth.interceptor';
 import { UserProfileService } from './services/user-profile.service';
+import { GroupService } from './services/group.service';
+import { AuthGuard } from './services/auth.guard';
+import { GroupCreationComponent } from './components/group-creation/group-creation.component';
 
 // Routes configuration
 const routes: Routes = [
@@ -43,9 +47,10 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'verify-email', component: EmailVerificationComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'groups', component: GroupFinderComponent },
-  { path: 'setlists', component: SetlistExplorerComponent },
-  { path: 'profile', component: ProfileComponent },
+  { path: 'groups', component: GroupFinderComponent, canActivate: [AuthGuard] },
+  { path: 'create-group/:id', component: GroupCreationComponent, canActivate: [AuthGuard] },
+  { path: 'setlists', component: SetlistExplorerComponent }, // Not implmeneted
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'concerts/:id', component: ConcertDetailsComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
@@ -62,7 +67,8 @@ const routes: Routes = [
     LoginComponent,
     EmailVerificationComponent,
     SharedNavbarComponent,
-    SharedFooterComponent
+    SharedFooterComponent,
+    GroupCreationComponent
   ],
   imports: [
     BrowserModule,
@@ -83,9 +89,11 @@ const routes: Routes = [
     MatNativeDateModule,
     MatDividerModule,
     MatMenuModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatOptionModule
   ],
   providers: [provideHttpClient(withInterceptors([authInterceptor])), ConcertService, AuthService, UserProfileService,
+    GroupService
   ],
   bootstrap: [AppComponent]
 })

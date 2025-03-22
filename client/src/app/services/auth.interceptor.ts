@@ -18,7 +18,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     });
 
     // Log for debugging
-    console.log('Interceptor adding token to request:', clonedRequest.headers.get('Authorization'));
+    // console.log('Interceptor adding token to request:', clonedRequest.headers.get('Authorization'));
 
     return next(clonedRequest);
   }

@@ -1,0 +1,102 @@
+.creation-container {
+    padding: 48px 24px;
+    background: linear-gradient(135deg, #f0e6ff 0%, #e8ddff 100%);
+    min-height: calc(100vh - 64px);
+}
+
+.creation-card {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+mat-card-title {
+    font-size: 28px;
+    color: #673ab7;
+    margin-bottom: 12px;
+}
+
+mat-card-subtitle {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 24px;
+}
+
+.full-width {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.privacy-toggle {
+    margin: 16px 0 32px 0;
+    padding: 16px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+.toggle-label {
+    font-weight: 500;
+    color: #333;
+}
+
+.toggle-hint {
+    margin-top: 8px;
+    margin-bottom: 0;
+    font-size: 14px;
+    color: #757575;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+    margin-top: 24px;
+}
+
+/* Loading and Error States */
+.loading-container,
+.error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 64px 24px;
+    text-align: center;
+}
+
+.loading-container p {
+    margin-top: 16px;
+    color: #666;
+}
+
+.error-icon {
+    font-size: 64px;
+    height: 64px;
+    width: 64px;
+    color: #f44336;
+    margin-bottom: 16px;
+}
+
+.error-container h2 {
+    color: #f44336;
+    margin-bottom: 12px;
+}
+
+.error-container p {
+    color: #666;
+    margin-bottom: 24px;
+}
+
+.button-spinner {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .creation-container {
+        padding: 32px 16px;
+    }
+}

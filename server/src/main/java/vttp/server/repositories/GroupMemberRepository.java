@@ -33,7 +33,7 @@ public class GroupMemberRepository {
     private static final String SQL_GET_GROUP_MEMBERS = """
             SELECT u.* FROM users u
             JOIN group_members gm ON u.id = gm.user_id
-            WHERE gm.group_id = ?
+            WHERE gm.group_id = ? AND gm.status = 'accepted'
             """;
 
     private static final String SQL_CHECK_MEMBERSHIP = """
