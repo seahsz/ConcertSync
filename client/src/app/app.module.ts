@@ -19,6 +19,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatMenuModule } from '@angular/material/menu';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MatOptionModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 // Components
 import { AppComponent } from './app.component';
@@ -90,7 +92,9 @@ const routes: Routes = [
     MatDividerModule,
     MatMenuModule,
     MatCheckboxModule,
-    MatOptionModule
+    MatOptionModule,
+    MatSelectModule,
+    MatSlideToggleModule
   ],
   providers: [provideHttpClient(withInterceptors([authInterceptor])), ConcertService, AuthService, UserProfileService,
     GroupService

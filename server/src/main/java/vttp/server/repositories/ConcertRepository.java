@@ -59,6 +59,20 @@ public class ConcertRepository {
             SELECT id FROM concerts WHERE id = ?
             """;
 
+    private static final String SQL_GET_CONCERT_BY_ID = """
+            SELECT c.id, c.artist, c.venue, c.country, c.tour, a.image_url_320
+            FROM concerts c
+            JOIN artists a ON c.artist_id = a.id
+            WHERE c.id = ?
+            """;
+
+    private static final String SQL_GET_CONCERT_DATES = """
+            SELECT date
+            FROM concert_dates
+            WHERE concert_id = ?
+            ORDER BY date ASC
+            """;
+
     private double SIMILARITY_THRESHOLD = 0.8;
 
     public Optional<Long> getId(String artist, String venue, String country) {
@@ -139,6 +153,58 @@ public class ConcertRepository {
         } catch (EmptyResultDataAccessException ex) {
             logger.warning("No concert found for id %d: %s".formatted(id, ex.getMessage()));
             return Optional.empty();
+        }
+    }
+
+    public Optional<Concert> getConcertById(Long id) {
+        try {
+            // First, check if the concert exists
+            if (!findById(id).isPresent()) {
+                return Optional.empty();
+            }
+
+            // Query for the concert details
+            Concert concert = template.queryForObject(SQL_GET_CONCERT_BY_ID,
+                    (rs, rowNum) -> {
+                        Concert c = new Concert();
+                        c.setId(rs.getLong("id"));
+                        c.setArtist(rs.getString("artist"));
+                        c.setVenue(rs.getString("venue"));
+                        c.setCountry(rs.getString("country"));
+                        c.setTour(rs.getString("tour"));
+                        c.setImageUrl320(rs.getString("image_url_320"));
+                        return c;
+                    },
+                    id);
+
+            // Query for the dates associated with this concert
+            List<LocalDate> dates = template.query(SQL_GET_CONCERT_DATES,
+                    (rs, rowNum) -> rs.getDate("date").toLocalDate(),
+                    id);
+
+            // Add the dates to the concert object
+            concert.setDates(dates);
+
+            return Optional.of(concert);
+        } catch (EmptyResultDataAccessException e) {
+            logger.warning("No concert found with ID: " + id);
+            return Optional.empty();
+        } catch (Exception e) {
+            logger.warning("Error fetching concert with ID " + id + ": " + e.getMessage());
+            return Optional.empty();
+        }
+    }
+
+    public boolean validateConcertDate(Long concertId, LocalDate date) {
+        try {
+            Integer count = template.queryForObject(
+                    "SELECT COUNT(*) FROM concert_dates WHERE concert_id = ? AND date = ?",
+                    Integer.class,
+                    concertId, date);
+            return count != null && count > 0;
+        } catch (Exception e) {
+            logger.warning("Error validating concert date: " + e.getMessage());
+            return false;
         }
     }
 }
