@@ -10,7 +10,7 @@ import vttp.server.models.angularDto.ErrorResponse;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-@ExceptionHandler(EmailTakenException.class)
+    @ExceptionHandler(EmailTakenException.class)
     public ResponseEntity<String> handleEmailTakenException(EmailTakenException ex) {
         ErrorResponse error = new ErrorResponse();
         error.getErrors().put("email_taken", true);
@@ -86,5 +86,12 @@ public class GlobalExceptionHandler {
         error.getErrors().put("resource_not_found", true);
         return new ResponseEntity<>(error.toJson().toString(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    
+
+    @ExceptionHandler(GroupLimitExceededException.class)
+    public ResponseEntity<String> handleGroupLimitExceededException(GroupLimitExceededException ex) {
+        ErrorResponse error = new ErrorResponse();
+        error.getErrors().put("group_limit_exceeded", true);
+        return new ResponseEntity<>(error.toJson().toString(), HttpStatus.BAD_REQUEST);
+    }
+
 }

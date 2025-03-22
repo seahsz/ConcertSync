@@ -1,11 +1,12 @@
 package vttp.server.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import vttp.server.exceptions.GroupLimitExceededException;
 import vttp.server.exceptions.InvalidConcertDateException;
 import vttp.server.exceptions.ResourceNotFoundException;
 import vttp.server.models.Group;
@@ -17,6 +18,12 @@ import vttp.server.repositories.UserRepository;
 
 @Service
 public class GroupService {
+
+    @Value("${premium.group.limit}")
+    private int premiumGroupLimit;
+
+    @Value("${non.premium.group.limit}")
+    private int nonPremiumGroupLimit;
 
     @Autowired
     private GroupRepository groupRepo;
@@ -31,6 +38,18 @@ public class GroupService {
     private UserRepository userRepo;
 
     public Group createGroup(Group group) {
+
+        // Check user's premium status and groups created
+        User creator = userRepo.findById(group.getCreatorId())
+                .orElseThrow(() -> new ResourceNotFoundException("Creator not found"));
+
+        int groupsCreated = userRepo.getGroupsCreated(creator.getId());
+        int groupLimit = creator.isPremiumStatus() ? premiumGroupLimit : nonPremiumGroupLimit;
+
+        if (groupsCreated >= groupLimit) {
+            throw new GroupLimitExceededException("You have reached your group creation limit");
+        }
+
         // Validate that the concert exists
         if (!concertRepo.findById(group.getConcertId()).isPresent()) {
             throw new ResourceNotFoundException("Concert not found with id: " + group.getClass());
@@ -66,42 +85,19 @@ public class GroupService {
                 .orElseThrow(() -> new ResourceNotFoundException("Group not found with id: %s".formatted(groupId)));
     }
 
-    // // Update members
-    // public boolean requestToJoinGroup(Long groupId, Long userId) {
-    //     // Check if the group exists
-    //     Group group = getGroupById(groupId);
-
-    //     // Check if the user exists
-    //     userRepo.findById(userId)
-    //             .orElseThrow(() -> new ResourceNotFoundException("User not found with id".formatted(userId)));
-
-    //     // Check if user already has a pending/accepted request
-    //     Optional<User> existingMembership = memberRepo.get
-
-    //     // Add pending request
-    //     return memberRepo.addMember(groupId, userId, "pending");
-    // }
-
-    // public boolean approveJoinRequest(Long groupId, Long userId, Long creatorId) {
-    //     // Verify the approver is the creator
-    //     // Update request status to 'accepted'
-    //     return memberRepo.updateRequestStatus(groupId, userId, "accepted");
-    // }
-
-    // public boolean rejectJoinRequest(Long groupId, Long userId, Long creatorId) {
-    //     // Verify the rejector is the creator
-    //     // Update request status to 'rejected'
-    //     return memberRepo.updateRequestStatus(groupId, userId, "rejected");
-    // }
-
     // Update members
-    public boolean joinGroup(Long groupId, Long userId) {
+    public boolean requestToJoinGroup(Long groupId, Long userId) {
         // Check if the group exists
         Group group = getGroupById(groupId);
 
         // Check if the user exists
         userRepo.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id".formatted(userId)));
+
+        // Check if user already has a request (pending/accepted/rejected) - if
+        // rejected, users can't apply again
+        if (memberRepo.isMember(groupId, userId))
+            return false;
 
         // Check if the group has capacity
         if (group.getCapacity() != null) {
@@ -111,8 +107,44 @@ public class GroupService {
             }
         }
 
-        // Add the user as a member
+        // Add pending request
         return memberRepo.addMember(groupId, userId, "pending");
+    }
+
+    public boolean approveJoinRequest(Long groupId, Long userId, Long creatorId) {
+        // Get the group to verify the creator
+        Group group = getGroupById(groupId);
+
+        // Verify the approver is the creator
+        if (!group.getCreatorId().equals(creatorId)) {
+            return false; // Only the creator can approve requests
+        }
+
+        // Check if the user has a pending request
+        if (!memberRepo.isMember(groupId, userId)) {
+            return false; // No request to approve
+        }
+
+        // Update request status to 'accepted'
+        return memberRepo.updateRequestStatus(groupId, userId, "accepted");
+    }
+
+    public boolean rejectJoinRequest(Long groupId, Long userId, Long creatorId) {
+        // Get the group to verify the creator
+        Group group = getGroupById(groupId);
+
+        // Verify the rejector is the creator
+        if (!group.getCreatorId().equals(creatorId)) {
+            return false; // Only the creator can reject requests
+        }
+
+        // Check if the user has a pending request
+        if (!memberRepo.isMember(groupId, userId)) {
+            return false; // No request to reject
+        }
+
+        // Update request status to 'rejected'
+        return memberRepo.updateRequestStatus(groupId, userId, "rejected");
     }
 
     public boolean leaveGroup(Long groupId, Long userId) {
@@ -124,6 +156,13 @@ public class GroupService {
         getGroupById(groupId); // throws exception if not found
 
         return memberRepo.getGroupMembers(groupId);
+    }
+
+    public List<User> getPendingJoinRequests(Long groupId) {
+        // Check if the group exists
+        getGroupById(groupId);
+
+        return memberRepo.getPendingRequests(groupId);
     }
 
 }

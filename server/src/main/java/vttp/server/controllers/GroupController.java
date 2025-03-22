@@ -30,7 +30,7 @@ public class GroupController {
 
     @PostMapping
     public ResponseEntity<String> createGroup(@RequestBody CreateGroupRequest request,
-        HttpServletRequest requestHttp) {
+            HttpServletRequest requestHttp) {
 
         long userId = Long.valueOf((String) requestHttp.getAttribute("id"));
 
@@ -49,10 +49,10 @@ public class GroupController {
 
         // Return response
         JsonObject response = Json.createObjectBuilder()
-            .add("success", true)
-            .add("message", "Group created successfully")
-            .add("group", createdGroup.toJson())
-            .build();
+                .add("success", true)
+                .add("message", "Group created successfully")
+                .add("group", createdGroup.toJson())
+                .build();
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response.toString());
     }
@@ -62,14 +62,14 @@ public class GroupController {
         List<Group> groups = groupSvc.getGroupsByConcert(concertId);
 
         JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
-        for (Group g: groups) {
+        for (Group g : groups) {
             arrayBuilder.add(g.toJson());
         }
 
         JsonObject response = Json.createObjectBuilder()
-            .add("groups", arrayBuilder.build())
-            .build();
-        
+                .add("groups", arrayBuilder.build())
+                .build();
+
         return ResponseEntity.ok(response.toString());
     }
 
@@ -80,14 +80,14 @@ public class GroupController {
         List<Group> groups = groupSvc.getGroupsByUser(userId);
 
         JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
-        for (Group g: groups) {
+        for (Group g : groups) {
             arrayBuilder.add(g.toJson());
         }
 
         JsonObject response = Json.createObjectBuilder()
-        .add("groups", arrayBuilder.build())
-        .build();
-    
+                .add("groups", arrayBuilder.build())
+                .build();
+
         return ResponseEntity.ok(response.toString());
     }
 
@@ -95,35 +95,72 @@ public class GroupController {
     public ResponseEntity<String> getGroupDetails(@PathVariable Long groupId) {
         Group group = groupSvc.getGroupById(groupId);
         List<User> members = groupSvc.getGroupMembers(groupId);
-        
+
         JsonArrayBuilder membersArray = Json.createArrayBuilder();
-        for (User member: members) {
+        for (User member : members) {
             membersArray.add(member.toJson());
         }
 
         JsonObject response = Json.createObjectBuilder()
-            .add("group", group.toJson())
-            .add("members", membersArray.build())
-            .add("memberCount", members.size())
-            .build();
-        
+                .add("group", group.toJson())
+                .add("members", membersArray.build())
+                .add("memberCount", members.size())
+                .build();
+
         return ResponseEntity.ok(response.toString());
     }
 
-    @PostMapping("/{groupId}/join")
-    public ResponseEntity<String> joinGroup(@PathVariable Long groupId, HttpServletRequest httpRequest) {
+    @PostMapping("/{groupId}/request")
+    public ResponseEntity<String> requestToJoinGroup(@PathVariable Long groupId, HttpServletRequest httpRequest) {
         long userId = Long.valueOf((String) httpRequest.getAttribute("id"));
 
-        boolean joined = groupSvc.joinGroup(groupId, userId);
+        boolean joined = groupSvc.requestToJoinGroup(groupId, userId);
 
         JsonObject response = Json.createObjectBuilder()
-            .add("success", joined)
-            .add("message", joined ? "Successfully joined group" : "Failed to join group")
-            .build();
-        
-        return joined ?
-            ResponseEntity.ok(response.toString()) :
-            ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response.toString());
+                .add("success", joined)
+                .add("message", joined ? "Join request submitted" : "Failed to submit join request")
+                .build();
+
+        return joined ? ResponseEntity.ok(response.toString())
+                : ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response.toString());
+    }
+
+    @PostMapping("/{groupId}/approve/{userId}")
+    public ResponseEntity<String> approveJoinRequest(
+            @PathVariable Long groupId,
+            @PathVariable Long userId,
+            HttpServletRequest httpRequest) {
+
+        long creatorId = Long.valueOf((String) httpRequest.getAttribute("id"));
+
+        boolean approved = groupSvc.approveJoinRequest(groupId, userId, creatorId);
+
+        JsonObject response = Json.createObjectBuilder()
+                .add("success", approved)
+                .add("message", approved ? "Join request approved" : "Failed to approve join request")
+                .build();
+
+        return approved ? ResponseEntity.ok(response.toString())
+                : ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response.toString());
+    }
+
+    @PostMapping("/{groupId}/reject/{userId}")
+    public ResponseEntity<String> rejectJoinRequest(
+            @PathVariable Long groupId,
+            @PathVariable Long userId,
+            HttpServletRequest httpRequest) {
+
+        long creatorId = Long.valueOf((String) httpRequest.getAttribute("id"));
+
+        boolean rejected = groupSvc.rejectJoinRequest(groupId, userId, creatorId);
+
+        JsonObject response = Json.createObjectBuilder()
+                .add("success", rejected)
+                .add("message", rejected ? "Join request rejected" : "Failed to reject join request")
+                .build();
+
+        return rejected ? ResponseEntity.ok(response.toString())
+                : ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response.toString());
     }
 
     @PostMapping("/{groupId}/leave")
@@ -133,13 +170,45 @@ public class GroupController {
         boolean left = groupSvc.leaveGroup(groupId, userId);
 
         JsonObject response = Json.createObjectBuilder()
-            .add("success", left)
-            .add("message", left ? "Successfully left group" : "Failed to leave group")
-            .build();
-        
-        return left ?
-            ResponseEntity.ok(response.toString()) :
-            ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response.toString());
+                .add("success", left)
+                .add("message", left ? "Successfully left group" : "Failed to leave group")
+                .build();
+
+        return left ? ResponseEntity.ok(response.toString())
+                : ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response.toString());
     }
-    
+
+    @GetMapping("/{groupId}/pending-requests")
+    public ResponseEntity<String> getPendingRequests(
+            @PathVariable Long groupId,
+            HttpServletRequest httpRequest) {
+
+        long userId = Long.valueOf((String) httpRequest.getAttribute("id"));
+
+        // Get the group
+        Group group = groupSvc.getGroupById(groupId);
+
+        // Verify the requester is the creator
+        if (!group.getCreatorId().equals(userId)) {
+            JsonObject errorResponse = Json.createObjectBuilder()
+                    .add("success", false)
+                    .add("message", "Only the creator can view pending requests")
+                    .build();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse.toString());
+        }
+
+        List<User> pendingUsers = groupSvc.getPendingJoinRequests(groupId);
+
+        JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+        for (User user : pendingUsers) {
+            arrayBuilder.add(user.toJson());
+        }
+
+        JsonObject response = Json.createObjectBuilder()
+                .add("pendingRequests", arrayBuilder.build())
+                .build();
+
+        return ResponseEntity.ok(response.toString());
+    }
+
 }
