@@ -41,7 +41,7 @@ public class UserRepository {
             UPDATE users SET email_verified = ?, email_verification_token = ?,
             updated_at = CURRENT_TIMESTAMP WHERE id = ?
             """;
-    
+
     private static final String SQL_UPDATE_PHONE_NUMBER = """
             UPDATE users SET phone_number = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?
             """;
@@ -52,8 +52,20 @@ public class UserRepository {
             """;
 
     private static final String SQL_UPDATE_PROFILE_PICTURE_URL = """
-            UPDATE users SET profile_picture_url = ?, 
+            UPDATE users SET profile_picture_url = ?,
             updated_at = CURRENT_TIMESTAMP WHERE id = ?
+            """;
+
+    // To track and update number of groups created - for premium feature tracking (premium create 10 grps, non-premium 2)
+    private static final String SQL_INCREMENT_GROUPS_CREATED = """
+            UPDATE users
+            SET groups_created = groups_created + 1
+            WHERE id = ?
+            """;
+
+    private static final String SQL_GET_GROUPS_CREATED = """
+            SELECT groups_created FROM users
+            WHERE id = ?
             """;
 
     private Logger logger = Logger.getLogger(UserRepository.class.getName());
@@ -63,10 +75,10 @@ public class UserRepository {
 
     public void insertUser(User user) {
         template.update(SQL_INSERT_USER, user.getUsername(), user.getEmail(),
-            user.getPassword(), user.getName(), user.getBirthDate(), 
-            user.getProfilePictureUrl(), user.getPhoneNumber(), 
-            user.isEmailVerified(), user.getEmailVerificationToken(), 
-            user.isPremiumStatus(), user.getPremiumExpiry());
+                user.getPassword(), user.getName(), user.getBirthDate(),
+                user.getProfilePictureUrl(), user.getPhoneNumber(),
+                user.isEmailVerified(), user.getEmailVerificationToken(),
+                user.isPremiumStatus(), user.getPremiumExpiry());
     }
 
     public Optional<User> findById(Long id) {
@@ -134,5 +146,20 @@ public class UserRepository {
             throw new UserNotFoundException(id);
     }
 
-    
+    // Tracking num of groups created
+    public boolean incrementGroupsCreated(Long userId) {
+        int rowsUpdated = template.update(SQL_INCREMENT_GROUPS_CREATED, userId);
+        return rowsUpdated > 0;
+    }
+
+    public int getGroupsCreated(Long userId) {
+        try {
+            Integer count = template.queryForObject(SQL_GET_GROUPS_CREATED, Integer.class, userId);
+            return count != null ? count : 0;
+        } catch (EmptyResultDataAccessException ex) {
+            logger.warning("No user found for id %d when getting groups created: %s".formatted(userId, ex.getMessage()));
+            throw new UserNotFoundException(userId);
+        }
+    }
+
 }

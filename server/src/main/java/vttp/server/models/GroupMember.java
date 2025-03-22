@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 public class GroupMember {
     private Long groupId;
     private Long userId;
+    private String status;
     private LocalDateTime joinedAt;
     
     // Getters and setters
@@ -13,6 +14,9 @@ public class GroupMember {
     
     public Long getUserId() { return userId; }
     public void setUserId(Long userId) { this.userId = userId; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
     
     public LocalDateTime getJoinedAt() { return joinedAt; }
     public void setJoinedAt(LocalDateTime joinedAt) { this.joinedAt = joinedAt; }
