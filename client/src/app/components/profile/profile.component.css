@@ -139,7 +139,77 @@
     color: white;
 }
 
-/* Improved name edit form styling */
+/* Material name form styles - NEW */
+.material-name-form {
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  padding: 16px;
+  backdrop-filter: blur(10px);
+  margin-bottom: 12px;
+}
+
+.full-width-name {
+  width: 100%;
+}
+
+/* Custom styling for Material form field in the profile header - NEW */
+.material-name-form ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
+
+/* Improve contrast for the form label */
+.material-name-form ::ng-deep .mat-mdc-floating-label {
+    color: white !important; /* Make label white for better contrast */
+    font-weight: 500; /* Make it slightly bolder */
+  }
+
+.material-name-form ::ng-deep .mat-mdc-text-field-wrapper {
+  background-color: rgba(255, 255, 255, 0.95); /* More opaque background */
+  border-radius: 6px;
+}
+
+.material-name-form ::ng-deep .mdc-floating-label {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.material-name-form ::ng-deep .mat-mdc-form-field-focus-overlay {
+  background-color: transparent;
+}
+
+.material-name-form ::ng-deep .mdc-text-field--outlined .mdc-notched-outline__leading,
+.material-name-form ::ng-deep .mdc-text-field--outlined .mdc-notched-outline__trailing,
+.material-name-form ::ng-deep .mdc-text-field--outlined .mdc-notched-outline__notch {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Make sure the input text is dark and visible against the white background - NEW */
+.material-name-form ::ng-deep .mat-mdc-input-element {
+  color: #333 !important;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+/* Ensure form actions look good - NEW */
+.name-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+/* Improve the Cancel button visibility */
+.name-form-actions button[mat-button] {
+    color: white; /* Make cancel button text white */
+    border: 1px solid rgba(255, 255, 255, 0.5); /* Add a subtle border */
+    background-color: rgba(255, 255, 255, 0.1); /* Slightly visible background */
+}
+
+.name-form-actions button[mat-button]:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Brighten on hover */
+}
+
+/* Old name form styles that can be removed if the new approach works */
 .name-edit-form {
     width: 100%;
     max-width: 300px;
@@ -547,7 +617,7 @@
         margin-left: 8px;
     }
     
-    .name-edit-form {
+    .name-edit-form, .material-name-form {
         max-width: 100%;
     }
 

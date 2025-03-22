@@ -34,7 +34,7 @@
             <input #fileInput type="file" style="display: none" accept="image/*" (change)="onFileSelected($event)">
           </div>
           <div class="profile-info">
-            <!-- Editable Name Section with improved form -->
+            <!-- Editable Name Section with Material form field -->
             <div class="name-section">
               @if (!isEditingName) {
                 <h1 class="name-display">{{ userProfile?.name }}</h1>
@@ -42,13 +42,19 @@
                   <mat-icon>edit</mat-icon>
                 </button>
               } @else {
-                <form [formGroup]="nameForm" (ngSubmit)="updateName()" class="name-edit-form">
-                  <input type="text" formControlName="name" placeholder="Your full name" class="custom-input" autofocus>
-                  <div class="name-form-actions">
-                    <button type="button" class="cancel-button" (click)="toggleEditName()">Cancel</button>
-                    <button type="submit" class="save-button" [disabled]="nameForm.invalid || submitting">
+                <form [formGroup]="nameForm" (ngSubmit)="updateName()" class="material-name-form">
+                  <mat-form-field appearance="outline" class="full-width-name">
+                    <mat-label>Full Name</mat-label>
+                    <input matInput formControlName="name" placeholder="Your full name" autofocus>
+                    <mat-error *ngIf="nameForm.get('name')?.invalid">
+                      Name is required
+                    </mat-error>
+                  </mat-form-field>
+                  <div class="form-actions name-form-actions">
+                    <button mat-flat-button type="button" (click)="toggleEditName()">Cancel</button>
+                    <button mat-raised-button color="primary" type="submit" [disabled]="nameForm.invalid || submitting">
                       @if (submitting) {
-                        <mat-spinner diameter="20" color="accent"></mat-spinner>
+                        <mat-spinner diameter="20"></mat-spinner>
                       } @else {
                         Save
                       }

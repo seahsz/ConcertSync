@@ -72,5 +72,19 @@ public class GlobalExceptionHandler {
         error.getErrors().put("profile_picture_upload_failed", true);
         return new ResponseEntity<>(error.toJson().toString(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(InvalidConcertDateException.class)
+    public ResponseEntity<String> handleInvalidConcertDateException(InvalidConcertDateException ex) {
+        ErrorResponse error = new ErrorResponse();
+        error.getErrors().put("invalid_concert_date", true);
+        return new ResponseEntity<>(error.toJson().toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<String> handleResourceNotFoundException(ResourceNotFoundException ex) {
+        ErrorResponse error = new ErrorResponse();
+        error.getErrors().put("resource_not_found", true);
+        return new ResponseEntity<>(error.toJson().toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
     
 }

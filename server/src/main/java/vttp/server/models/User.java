@@ -5,6 +5,9 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+
 public class User {
 
     private Long id;
@@ -86,6 +89,16 @@ public class User {
         user.setUpdatedAt(rs.getTimestamp("updated_at").toLocalDateTime());
         user.setLastNameUpdate(rs.getDate("last_name_update").toLocalDate());
         return user;
+    }
+
+    public JsonObject toJson() {
+        return Json.createObjectBuilder()
+            .add("id", id)
+            .add("username", username)
+            .add("name", name)
+            .add("profilePictureUrl", profilePictureUrl != null ?
+                profilePictureUrl : "/images/blank_profile_pic_320px.png")
+            .build();
     }
 
     @Override
