@@ -1,0 +1,439 @@
+/* Global Styles */
+.concert-sync-container {
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+/* Hero Section with Background Image */
+.hero-section {
+    position: relative;
+    height: 550px;
+    background-image: url('/images/concert.jpg');
+    background-size: cover;
+    background-position: center center;
+    color: white;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(103, 58, 183, 0.85) 0%, rgba(156, 39, 176, 0.75) 100%);
+    display: flex;
+    align-items: center;
+    padding: 0 48px;
+}
+
+.hero-content {
+    max-width: 600px;
+}
+
+.hero-title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero-subtitle {
+    font-size: 1.3rem;
+    margin-bottom: 32px;
+    opacity: 0.9;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.hero-actions {
+    display: flex;
+    gap: 16px;
+}
+
+.hero-button {
+    padding: 8px 24px;
+    font-weight: 500;
+}
+
+/* Add a subtle animation to bring focus to the CTA buttons */
+.hero-button.accent {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hero-button.accent:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 960px) {
+    .hero-section {
+        height: 500px;
+    }
+
+    .hero-title {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .hero-overlay {
+        padding: 0 24px;
+        text-align: center;
+        justify-content: center;
+    }
+
+    .hero-section {
+        height: 450px;
+    }
+
+    .hero-title {
+        font-size: 2rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
+
+    .hero-actions {
+        justify-content: center;
+    }
+}
+
+/* Premium Banner - FIXED vertical alignment */
+.premium-banner {
+    margin: 24px 48px;
+    background: linear-gradient(135deg, #ff9800 0%, #ff5722 100%);
+    color: white;
+}
+
+.premium-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center !important; /* Force center alignment */
+    padding: 16px;
+}
+
+.premium-text h2 {
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+.premium-text p {
+    margin-bottom: 0; /* Maintain vertical spacing */
+    line-height: 1.5; /* Improve readability */
+}
+
+/* Section Container */
+.section-container {
+    padding: 48px 48px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.section-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0;
+    color: #333;
+}
+
+.search-field {
+    width: 300px;
+}
+
+/* Concert Grid */
+.concert-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+.concert-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.concert-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* FIXED: Card image styling to fill the width */
+.card-img {
+    width: 100% !important;
+    height: 320px;
+    object-fit: cover;
+}
+
+mat-card-image {
+    width: 100% !important;
+    margin: 0 !important;
+}
+
+/* Force material to respect our image dimensions */
+.concert-card ::ng-deep .mat-mdc-card-image {
+    width: 100% !important;
+    margin: 0 !important;
+}
+
+.card-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.card-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    color: #666;
+}
+
+.card-info mat-icon {
+    font-size: 18px;
+    height: 18px;
+    width: 18px;
+    margin-right: 8px;
+}
+
+.card-badges {
+    display: flex;
+    gap: 8px;
+    margin: 16px 0;
+}
+
+.badge {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 8px;
+    border-radius: 4px;
+    color: white;
+}
+
+.badge.popular {
+    background-color: #f44336;
+}
+
+.badge.selling-fast {
+    background-color: #ff9800;
+}
+
+.badge.new {
+    background-color: #4caf50;
+}
+
+.badge.groups {
+    background-color: #2196f3;
+}
+
+.view-more-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 32px;
+}
+
+/* No Concerts Display */
+.no-concerts-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 64px 0 0 0;
+    text-align: center;
+}
+
+.no-concerts-icon {
+    font-size: 64px;
+    height: 64px;
+    width: 64px;
+    color: #9e9e9e;
+    margin-bottom: 16px;
+}
+
+.no-concerts-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #616161;
+}
+
+.no-concerts-subtitle {
+    font-size: 1.1rem;
+    color: #757575;
+    margin-bottom: 24px;
+    max-width: 500px;
+}
+
+.create-group-btn {
+    padding: 8px 24px;
+}
+
+/* Features Section - REVISED FOR TWO FEATURES */
+.features-section {
+    background-color: #f5f5f5;
+    margin-top: 64px;
+    padding: 64px 48px;
+    text-align: center;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Changed to 2 columns */
+    gap: 32px;
+    margin-top: 48px;
+    max-width: 800px; /* Added to center the two features */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.feature-item {
+    background-color: white;
+    padding: 32px 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+}
+
+.feature-item:hover {
+    transform: translateY(-5px);
+}
+
+.feature-icon {
+    font-size: 48px;
+    height: 48px;
+    width: 48px;
+    color: #673ab7;
+    margin-bottom: 16px;
+}
+
+.feature-item h3 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.feature-item p {
+    color: #666;
+}
+
+/* Footer */
+.app-footer {
+    background-color: #212121;
+    color: #fff;
+    padding: 48px 48px 24px;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 32px;
+    margin-bottom: 32px;
+}
+
+.footer-section h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: #fff;
+}
+
+.footer-section a {
+    display: block;
+    color: #bbb;
+    text-decoration: none;
+    margin-bottom: 8px;
+    transition: color 0.3s ease;
+}
+
+.footer-section a:hover {
+    color: #fff;
+}
+
+.copyright {
+    border-top: 1px solid #444;
+    padding-top: 24px;
+    text-align: center;
+    color: #999;
+    font-size: 14px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 960px) {
+    .hero-section {
+        flex-direction: column;
+        padding: 48px 24px;
+    }
+
+    .hero-content {
+        padding-right: 0;
+        padding-bottom: 32px;
+        text-align: center;
+    }
+
+    .hero-actions {
+        justify-content: center;
+    }
+
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .search-field {
+        width: 100%;
+    }
+
+    .premium-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 16px;
+    }
+    
+    /* Update features grid to single column on smaller screens */
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .header-toolbar {
+        padding: 0 16px;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .logo-text {
+        font-size: 20px;
+    }
+
+    .section-container {
+        padding: 32px 16px;
+    }
+
+    .features-section {
+        padding: 48px 16px;
+    }
+
+    .app-footer {
+        padding: 48px 16px 24px;
+    }
+    
+    .premium-banner {
+        margin: 16px;
+    }
+
+    .premium-text p.premium-paragraph {
+        max-width: 100%; /* Full width on smaller screens */
+        margin-bottom: 16px;
+      }
+}

@@ -1,0 +1,140 @@
+<div class="concert-sync-container">
+  <!-- Header with Navigation -->
+  <app-shared-navbar></app-shared-navbar>
+
+  <!-- Registration Section -->
+  <div class="registration-container">
+    <mat-card class="registration-card">
+      <mat-card-header>
+        <div class="header-content">
+          <mat-card-title>Join ConcertSync</mat-card-title>
+          <mat-card-subtitle>Create your account to connect with music lovers</mat-card-subtitle>
+        </div>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <!-- Success Message -->
+        @if (registrationSuccess) {
+          <div class="success-message">
+            <mat-icon>check_circle</mat-icon>
+            <h3>Registration Successful!</h3>
+            <p class="success-text">Thank you for registering with ConcertSync. Please check your email to verify your account.</p>
+            <p class="redirect-note">You will be redirected to the login page in a few seconds...</p>
+          </div>
+        } @else {
+          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <!-- Username Field -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Username</mat-label>
+              <input matInput formControlName="username" placeholder="Choose a unique username">
+              <mat-icon matSuffix>person</mat-icon>
+              @if (registerForm.get('username')?.invalid && registerForm.get('username')?.touched) {
+                <mat-error>
+                  {{ getErrorMessage('username') }}
+                </mat-error>
+              }
+            </mat-form-field>
+
+            <!-- Email Field -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Email</mat-label>
+              <input matInput formControlName="email" placeholder="Your email address" type="email">
+              <mat-icon matSuffix>email</mat-icon>
+              @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
+                <mat-error>
+                  {{ getErrorMessage('email') }}
+                </mat-error>
+              }
+            </mat-form-field>
+
+            <!-- Password Field -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Password</mat-label>
+              <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'" placeholder="Create a password">
+              <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
+                <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+              </button>
+              @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched) {
+                <mat-error>
+                  {{ getErrorMessage('password') }}
+                </mat-error>
+              }
+              <mat-hint>Password must be at least 8 characters with uppercase, lowercase & number</mat-hint>
+            </mat-form-field>
+
+            <!-- Confirm Password Field -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Confirm Password</mat-label>
+              <input matInput formControlName="confirmPassword" [type]="hideConfirmPassword ? 'password' : 'text'" placeholder="Confirm your password">
+              <button mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword" type="button">
+                <mat-icon>{{ hideConfirmPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+              </button>
+              @if (registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched) {
+                <mat-error>
+                  {{ getErrorMessage('confirmPassword') }}
+                </mat-error>
+              }
+            </mat-form-field>
+
+            <!-- Full Name Field -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Full Name</mat-label>
+              <input matInput formControlName="name" placeholder="Your full name">
+              <mat-icon matSuffix>badge</mat-icon>
+              @if (registerForm.get('name')?.invalid && registerForm.get('name')?.touched) {
+                <mat-error>
+                  {{ getErrorMessage('name') }}
+                </mat-error>
+              }
+            </mat-form-field>
+
+            <!-- Birth Date Field -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Date of Birth</mat-label>
+              <input matInput [matDatepicker]="picker" formControlName="birthDate" [max]="maxDate" placeholder="MM/DD/YYYY">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              @if (registerForm.get('birthDate')?.invalid && registerForm.get('birthDate')?.touched) {
+                <mat-error>
+                  {{ getErrorMessage('birthDate') }}
+                </mat-error>
+              }
+              <mat-hint>You must be at least 18 years old to register</mat-hint>
+            </mat-form-field>
+
+            <!-- Phone Number Field (Optional) -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Phone Number (Optional)</mat-label>
+              <input matInput formControlName="phoneNumber" placeholder="+65XXXXXXXX">
+              <mat-icon matSuffix>phone</mat-icon>
+              @if (registerForm.get('phoneNumber')?.invalid && registerForm.get('phoneNumber')?.touched) {
+                <mat-error>
+                  {{ getErrorMessage('phoneNumber') }}
+                </mat-error>
+              }
+              <mat-hint>Format: +65XXXXXXXX (Singapore number beginning with 8/9)</mat-hint>
+            </mat-form-field>
+
+            <div class="form-actions">
+              <button mat-raised-button type="submit" class="submit-button" [disabled]="registerForm.invalid || submitting">
+                @if (submitting) {
+                  <mat-spinner diameter="24"></mat-spinner>
+                } @else {
+                  <span>Create Account</span>
+                }
+              </button>
+            </div>
+          </form>
+        }
+      </mat-card-content>
+
+      <mat-card-actions class="card-actions">
+        <span>Already have an account?</span>
+        <button mat-button (click)="goToLogin()">Sign In</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
+
+<!-- Footer -->
+<app-shared-footer></app-shared-footer>

@@ -1,0 +1,277 @@
+.setlist-explorer-container {
+    padding: 0 0 48px;
+    background: linear-gradient(135deg, #f0e6ff 0%, #e8ddff 100%);
+    min-height: calc(100vh - 64px);
+  }
+  
+  /* Header Section */
+  .explorer-header {
+    background-color: #673ab7;
+    color: white;
+    padding: 48px 24px;
+    text-align: center;
+  }
+  
+  .explorer-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  .explorer-subtitle {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  /* Search Section */
+  .search-section {
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .search-container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .search-field {
+    width: 100%;
+  }
+  
+  /* Content Section */
+  .setlists-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 32px 24px;
+  }
+  
+  .results-header {
+    margin-bottom: 24px;
+  }
+  
+  .results-header h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+  }
+  
+  /* Loading and Error States */
+  .loading-container,
+  .error-container,
+  .no-results-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 64px 24px;
+    text-align: center;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .loading-container p {
+    margin-top: 16px;
+    color: #666;
+  }
+  
+  .error-icon,
+  .no-results-icon {
+    font-size: 64px;
+    height: 64px;
+    width: 64px;
+    margin-bottom: 16px;
+  }
+  
+  .error-icon {
+    color: #f44336;
+  }
+  
+  .no-results-icon {
+    color: #9e9e9e;
+  }
+  
+  .error-container h2,
+  .no-results-container h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  
+  .error-container p,
+  .no-results-container p {
+    color: #666;
+    margin-bottom: 24px;
+    max-width: 500px;
+  }
+  
+  /* Setlist Cards */
+  .setlists-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .setlist-card {
+    background-color: white;
+    transition: box-shadow 0.3s ease;
+    overflow: hidden;
+  }
+  
+  .setlist-card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+  
+  .setlist-card.expanded {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Make the entire header clickable */
+  .setlist-card mat-card-header {
+    cursor: pointer;
+    padding: 16px;
+    position: relative;
+  }
+  
+  .setlist-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 4px;
+  }
+  
+  .setlist-venue,
+  .setlist-location,
+  .setlist-date {
+    display: flex;
+    align-items: center;
+    color: #666;
+  }
+  
+  .setlist-tour {
+    display: flex;
+    align-items: center;
+    color: #673ab7;
+    margin-top: 8px;
+    font-weight: 500;
+  }
+  
+  .setlist-tour mat-icon {
+    font-size: 18px;
+    height: 18px;
+    width: 18px;
+    margin-right: 4px;
+  }
+  
+  .expand-button {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  /* Setlist Content */
+  .setlist-set {
+    margin-bottom: 32px;
+  }
+  
+  .set-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #673ab7;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .songs-list {
+    padding-left: 24px;
+    margin: 0;
+  }
+  
+  .song-item {
+    margin-bottom: 12px;
+    line-height: 1.5;
+  }
+  
+  .song-name {
+    font-weight: 500;
+  }
+  
+  .tape-song {
+    opacity: 0.7;
+  }
+  
+  .tape-badge {
+    display: inline-block;
+    padding: 2px 6px;
+    background-color: #9c27b0;
+    color: white;
+    font-size: 10px;
+    border-radius: 4px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+  
+  .song-info {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 4px;
+    font-style: italic;
+  }
+  
+  .no-songs,
+  .no-sets {
+    color: #999;
+    font-style: italic;
+    text-align: center;
+    padding: 16px;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .explorer-title {
+      font-size: 2rem;
+    }
+  
+    .explorer-subtitle {
+      font-size: 1rem;
+    }
+  
+    .setlist-meta {
+      flex-direction: column;
+      gap: 4px;
+      align-items: flex-start;
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .explorer-header {
+      padding: 32px 16px;
+    }
+  
+    .explorer-title {
+      font-size: 1.8rem;
+    }
+  
+    .setlists-content {
+      padding: 24px 16px;
+    }
+  
+    .setlist-card mat-card-header {
+      padding: 16px 8px;
+    }
+  
+    .expand-button {
+      right: 0;
+    }
+  
+    .songs-list {
+      padding-left: 16px;
+    }
+  }

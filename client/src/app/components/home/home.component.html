@@ -1,0 +1,107 @@
+<div class="concert-sync-container">
+  <!-- Header with Navigation -->
+  <app-shared-navbar></app-shared-navbar>
+
+  <!-- Hero Section with Background Image -->
+  <div class="hero-section">
+    <div class="hero-overlay">
+      <div class="hero-content">
+        <h1 class="hero-title">Connect with Concert Lovers</h1>
+        <p class="hero-subtitle">Find groups, discover setlists, and enjoy the music together</p>
+        <div class="hero-actions">
+          <button mat-raised-button class="hero-button accent" [routerLink]="['/groups']">Find a Group</button>
+          <button mat-stroked-button class="hero-button accent" [routerLink]="['/setlists']">Explore Setlists</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Premium Banner -->
+  @if (!isLoading && shouldShowPremiumBanner()) {
+    <mat-card class="premium-banner">
+      <mat-card-content class="premium-content">
+        <div class="premium-text">
+          <h2>Go Premium</h2>
+          <p>Unlock the power to create unlimited groups—break free from the 2-group limit and enjoy more benefits to come!</p>
+        </div>
+        @if (isLoggedIn) {
+          <button mat-raised-button class="warn" [routerLink]="['/premium']">Upgrade for $5/month</button>
+        } @else {
+          <button mat-raised-button class="warn" [routerLink]="['/login']" [queryParams]="{returnUrl: '/premium'}">Sign In to Upgrade</button>
+        }
+      </mat-card-content>
+    </mat-card>
+  }
+
+  <!-- Upcoming Concerts Section -->
+  <div class="section-container">
+    <div class="section-header">
+      <h2 class="section-title">Upcoming Concerts in Singapore</h2>
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Search concerts</mat-label>
+        <input matInput placeholder="Artist or venue" (input)="filterConcerts($event)">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <!-- Using Angular @if for conditional rendering -->
+    @if (displayedConcerts && displayedConcerts.length > 0) {
+    <div class="concert-grid">
+      <!-- For concert cards in home.component.html -->
+      @for (concert of displayedConcerts; track concert.artist + concert.dates[0]) {
+        <mat-card class="concert-card">
+          <img class="card-img" mat-card-image [src]="concert.image_url_320" [alt]="concert.artist + ' Concert'" [routerLink]="['/concerts', concert.id]" style="cursor: pointer;">
+          <mat-card-content>
+            <h3 class="card-title">{{ concert.artist }}</h3>
+            <p class="card-info">
+              <mat-icon>calendar_today</mat-icon> {{ getDateList(concert) }}
+            </p>
+            <p class="card-info">
+              <mat-icon>location_on</mat-icon> {{ concert.venue }}
+            </p>
+          </mat-card-content>
+          <mat-card-actions align="end">
+            <button mat-raised-button class="accent" [routerLink]="['/concerts', concert.id]">
+              <mat-icon>event_note</mat-icon>
+              View Concert
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      }
+    </div>
+
+    @if (hasMoreConcerts()) {
+    <div class="view-more-container">
+      <button mat-stroked-button (click)="viewMore()">View More Concerts</button>
+    </div>
+    }
+    } @else {
+    <div class="no-concerts-container">
+      <mat-icon class="no-concerts-icon">event_busy</mat-icon>
+      <h3 class="no-concerts-title">No Upcoming Concerts</h3>
+      <p class="no-concerts-subtitle">Check back soon for upcoming concerts in Singapore</p>
+      <button mat-raised-button class="create-group-btn">Create a Concert Group</button>
+    </div>
+    }
+  </div>
+
+  <!-- Features Section - Updated for 2 features -->
+  <div class="features-section">
+    <h2 class="section-title">Why Use ConcertSync?</h2>
+    <div class="features-grid">
+      <div class="feature-item">
+        <mat-icon class="feature-icon">group</mat-icon>
+        <h3>Find Concert Groups</h3>
+        <p>Connect with other fans and attend concerts together</p>
+      </div>
+      <div class="feature-item">
+        <mat-icon class="feature-icon">queue_music</mat-icon>
+        <h3>Explore Setlists</h3>
+        <p>Review past setlists to prepare for upcoming shows</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<app-shared-footer></app-shared-footer>

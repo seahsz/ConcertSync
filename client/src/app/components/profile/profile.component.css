@@ -1,0 +1,1137 @@
+/* profile.component.css */
+.profile-container {
+    padding: 40px 24px;
+    background: linear-gradient(135deg, #f0e6ff 0%, #e8ddff 100%);
+    min-height: calc(100vh - 64px);
+}
+
+/* Loading and Error States */
+.loading-container,
+.error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 64px 24px;
+    margin: 0 auto;
+    max-width: 500px;
+}
+
+.loading-container p {
+    margin-top: 16px;
+    color: #666;
+}
+
+.error-icon {
+    font-size: 64px;
+    height: 64px;
+    width: 64px;
+    color: #f44336;
+    margin-bottom: 16px;
+}
+
+.error-container h2 {
+    color: #f44336;
+    margin-bottom: 12px;
+}
+
+.error-container p {
+    color: #666;
+    margin-bottom: 24px;
+}
+
+/* Profile Content */
+.profile-content {
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* Profile Header */
+.profile-header {
+    display: flex;
+    padding: 32px;
+    background: linear-gradient(135deg, #673ab7 0%, #9c27b0 100%);
+    color: white;
+    flex-wrap: wrap;
+    overflow: hidden;
+}
+
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid rgba(255, 255, 255, 0.5);
+    margin-right: 24px;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Profile Picture Upload Overlay */
+.profile-picture-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 6px 0;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.profile-avatar:hover .profile-picture-overlay {
+    opacity: 1;
+}
+
+.update-picture-btn {
+    color: white;
+}
+
+.profile-info {
+    flex: 1;
+    min-width: 0;
+    max-width: 100%;
+}
+
+/* Fixed Name Section with proper overflow handling */
+.name-section {
+    display: flex;
+    position: relative;
+    align-items: flex-start;
+    margin-bottom: 4px;
+    width: 100%;
+    max-width: 100%;
+}
+
+.name-display {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+    padding-right: 40px;
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    max-width: 100%;
+    line-height: 1.2;
+}
+
+.edit-name-btn {
+    color: rgba(255, 255, 255, 0.7);
+    transition: color 0.3s ease;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.edit-name-btn:hover {
+    color: white;
+}
+
+/* Material name form styles */
+.material-name-form {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 24px 16px 16px;
+    backdrop-filter: blur(10px);
+    margin-bottom: 12px;
+    position: relative;
+}
+
+.name-form-label {
+    position: absolute;
+    top: -10px;
+    left: 16px;
+    background-color: #4a148c;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    color: white;
+    z-index: 2;
+}
+
+.full-width-name {
+    width: 100%;
+}
+
+/* Custom styling for Material form field in the profile header */
+.material-name-form ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+}
+
+/* Hide the original floating label */
+.material-name-form ::ng-deep .mat-mdc-floating-label {
+    display: none !important;
+}
+
+.material-name-form ::ng-deep .mat-mdc-text-field-wrapper {
+    background-color: rgba(255, 255, 255, 0.95); /* More opaque background */
+    border-radius: 6px;
+}
+
+.material-name-form ::ng-deep .mdc-floating-label {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+.material-name-form ::ng-deep .mat-mdc-form-field-focus-overlay {
+    background-color: transparent;
+}
+
+.material-name-form ::ng-deep .mdc-text-field--outlined .mdc-notched-outline__leading,
+.material-name-form ::ng-deep .mdc-text-field--outlined .mdc-notched-outline__trailing,
+.material-name-form ::ng-deep .mdc-text-field--outlined .mdc-notched-outline__notch {
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Make sure the input text is dark and visible against the white background */
+.material-name-form ::ng-deep .mat-mdc-input-element {
+    color: #333 !important;
+    font-size: 18px;
+    font-weight: 500;
+    padding-top: 6px !important;
+}
+
+/* Ensure form actions look good */
+.name-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+/* Improve the Cancel button visibility */
+.name-form-actions button[mat-button] {
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.name-form-actions button[mat-button]:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Username with overflow protection */
+.username {
+    font-size: 1rem;
+    opacity: 0.9;
+    margin-bottom: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+}
+
+/* Fixed file upload section */
+.upload-picture-section {
+    display: flex;
+    align-items: center;
+    margin-top: 12px;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 8px 12px;
+    border-radius: 4px;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.selected-file-name {
+    margin-right: 12px;
+    font-size: 14px;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+}
+
+/* Improved horizontal stats display */
+.profile-stats {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.stat {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+/* Updated Premium/Free Badge Styles */
+.status-badge {
+    display: flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.premium-badge {
+    background-color: #ffc107;
+    color: #212121;
+}
+
+.free-badge {
+    background-color: #e0e0e0;
+    color: #616161;
+}
+
+.status-badge mat-icon {
+    font-size: 16px;
+    height: 16px;
+    width: 16px;
+    margin-right: 4px;
+}
+
+/* Profile Navigation */
+.profile-nav {
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.profile-nav button {
+    padding: 16px 24px;
+    font-weight: 500;
+    border-radius: 0;
+    opacity: 0.7;
+    color: #333;
+    display: flex;
+    align-items: center;
+}
+
+.profile-nav button mat-icon {
+    margin-right: 8px;
+}
+
+.profile-nav button.active {
+    color: #673ab7;
+    opacity: 1;
+    position: relative;
+}
+
+.profile-nav button.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(135deg, #673ab7 0%, #9c27b0 100%);
+}
+
+/* Tab Content */
+.profile-tab-content {
+    padding: 32px;
+}
+
+/* Styled section title for all tabs - Consistent styling with subscription title */
+.section-title {
+    font-size: 1.8rem !important;
+    font-weight: 700 !important;
+    color: #673ab7 !important;
+    margin-top: 32px !important;
+    margin-bottom: 16px !important;
+    position: relative;
+    padding-bottom: 8px;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(135deg, #673ab7 0%, #9c27b0 100%);
+    border-radius: 2px;
+}
+
+/* Info Cards - Styled consistently with premium boxes */
+.info-card {
+    background-color: #f0e6ff;
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 24px;
+    border: 1px solid #d1c4e9;
+    box-shadow: 0 2px 8px rgba(103, 58, 183, 0.1);
+}
+
+/* Fixed row height and alignment issues */
+.info-item {
+    display: flex;
+    border-bottom: 1px solid #e0e0e0;
+    min-height: 44px;
+    line-height: 1.5;
+}
+
+.info-item:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    font-weight: 500;
+    color: #555;
+    width: 150px;
+    min-width: 150px;
+    display: flex;
+    align-items: center;
+    padding: 10px 16px 10px 0;
+}
+
+.info-value {
+    color: #333;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+}
+
+/* Editable Fields - Fixed alignment issue */
+.info-value-editable {
+    display: flex;
+    flex: 1;
+    align-items: center;
+}
+
+/* Make sure phone display has consistent styling and color */
+.phone-display {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.phone-display span {
+    flex: 1;
+    color: #333;
+    font-size: inherit;
+    font-family: inherit;
+}
+
+/* Make edit form expand when active but not affect other rows */
+.info-value-editable form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 10px 0;
+}
+
+/* Override Angular Material's default padding for form fields */
+.info-value-editable ::ng-deep .mat-mdc-form-field {
+    margin-bottom: 0;
+}
+
+.info-value-editable ::ng-deep .mat-mdc-text-field-wrapper {
+    padding-bottom: 0;
+}
+
+/* Ensure consistent font styling across all text in the profile info */
+.info-value, 
+.info-value-editable,
+.phone-display span {
+    color: #333;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+/* Override Angular Material input colors for consistency */
+.info-value-editable ::ng-deep .mat-mdc-input-element {
+    color: #333 !important;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+/* Edit button styling for better alignment and click target */
+.info-value-editable button[mat-icon-button] {
+    margin-left: 8px;
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.action-buttons button {
+    min-width: 120px;
+}
+
+/* Delete account section */
+.delete-account-section {
+    margin-top: 36px;
+    padding: 24px;
+    background-color: #fff4f4;
+    border-radius: 8px;
+    border: 1px solid #ffcdd2;
+}
+
+.delete-account-section h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #d32f2f;
+    margin: 0 0 16px 0;
+}
+
+.delete-account-section p {
+    margin-bottom: 16px;
+    color: #555;
+}
+
+.delete-account-btn {
+    display: flex;
+    align-items: center;
+}
+
+.delete-account-btn mat-icon {
+    margin-right: 8px;
+}
+
+/* Delete account confirmation dialog */
+.delete-confirmation-dialog {
+    background-color: #fff4f4;
+    border-radius: 8px;
+    padding: 24px;
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+}
+
+.delete-confirmation-dialog h2 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #d32f2f;
+    margin: 0 0 16px 0;
+}
+
+.delete-confirmation-dialog p {
+    margin-bottom: 24px;
+    color: #555;
+}
+
+.delete-confirmation-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+}
+
+/* Empty State */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 48px 24px;
+}
+
+.empty-state mat-icon {
+    font-size: 64px;
+    height: 64px;
+    width: 64px;
+    color: #bdbdbd;
+    margin-bottom: 16px;
+}
+
+.empty-state h3 {
+    color: #757575;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.empty-state p {
+    color: #9e9e9e;
+    margin-bottom: 24px;
+    max-width: 300px;
+}
+
+/* FIX: Properly sized and aligned icon in CTA button */
+.empty-state-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.empty-state-button mat-icon {
+    font-size: 20px;
+    height: 20px;
+    width: 20px;
+    margin: 0 8px 0 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: inherit;
+}
+
+/* Enhanced premium section */
+.premium-status-box {
+    background-color: #f0e6ff;
+    border-radius: 8px;
+    padding: 24px;
+    text-align: center;
+    border: 1px solid #d1c4e9;
+    box-shadow: 0 2px 8px rgba(103, 58, 183, 0.1);
+}
+
+.premium-status-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.premium-icon {
+    color: #673ab7;
+    margin-right: 8px;
+    font-size: 24px;
+    height: 24px;
+    width: 24px;
+}
+
+.premium-active {
+    font-size: 18px;
+    font-weight: 600;
+    color: #673ab7;
+}
+
+.premium-details {
+    margin-bottom: 24px;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+}
+
+/* Increased left margin for premium details items */
+.premium-details .info-item .info-label {
+    padding-left: 16px;
+}
+
+/* Enhanced non-premium box */
+.non-premium-box {
+    background-color: #f0e6ff;
+    border-radius: 8px;
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border: 1px solid #d1c4e9;
+    box-shadow: 0 2px 8px rgba(103, 58, 183, 0.1);
+}
+
+.non-premium-box p {
+    margin-bottom: 24px;
+    color: #555;
+    font-size: 16px;
+    max-width: 400px;
+    line-height: 1.6;
+}
+
+.premium-benefits {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto 24px;
+    text-align: left;
+    background-color: white;
+    border-radius: 8px;
+    padding: 16px;
+    border: 1px solid #d1c4e9;
+}
+
+.benefit-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f0e6ff;
+}
+
+.benefit-item:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.benefit-item mat-icon {
+    color: #673ab7;
+    margin-right: 12px;
+    font-size: 20px;
+    height: 20px;
+    width: 20px;
+    flex-shrink: 0;
+}
+
+.benefit-text {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.5;
+}
+
+.non-premium-box button {
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    height: 44px;
+    font-weight: 500;
+}
+
+.non-premium-box button mat-icon {
+    margin-right: 8px;
+}
+
+/* Loading state for groups */
+.groups-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+    text-align: center;
+}
+  
+.groups-loading p {
+    margin-top: 16px;
+    color: #666;
+}
+  
+/* FIX: Improved groups grid layout and group card styling */
+.groups-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+}
+
+.group-card {
+    background-color: #f8f5ff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    width: 100%;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.group-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(103, 58, 183, 0.15);
+}
+
+/* FIX: Card title overflow */
+.group-card ::ng-deep .mat-mdc-card-title {
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    font-size: 1.1rem !important;
+    line-height: 1.3 !important;
+    max-height: 2.6rem !important;
+    word-break: break-word !important;
+}
+
+.group-card ::ng-deep .mat-mdc-card-subtitle {
+    margin-bottom: 8px;
+}
+
+.group-title-area {
+    padding: 16px 16px 8px 16px;
+    position: relative;
+}
+
+.group-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 8px 0;
+    line-height: 1.3;
+    
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    word-break: break-word;
+}
+
+.members-badge {
+    display: flex;
+    align-items: center;
+    background-color: rgba(103, 58, 183, 0.1);
+    padding: 4px 10px;
+    border-radius: 16px;
+    font-size: 0.875rem;
+    color: #673ab7;
+    font-weight: 500;
+    white-space: nowrap;
+    margin-bottom: 12px;
+    width: fit-content;
+}
+
+.members-badge mat-icon {
+    font-size: 18px;
+    height: 18px;
+    width: 18px;
+    margin-right: 4px;
+    color: #673ab7;
+}
+
+.group-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.group-meta .meta-item {
+    display: flex;
+    align-items: center;
+    font-size: 0.875rem;
+    color: #666;
+}
+
+.group-meta .meta-item mat-icon {
+    font-size: 16px;
+    height: 16px;
+    width: 16px;
+    margin-right: 4px;
+    color: #673ab7;
+}
+
+.card-divider {
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.08);
+    margin: 0 16px;
+}
+
+.group-description {
+    padding: 12px 16px;
+}
+
+.group-description p {
+    margin: 0;
+    color: #555;
+    line-height: 1.5;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.group-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+    padding: 12px 16px;
+}
+
+.action-link {
+    color: #673ab7;
+    text-decoration: none;
+    border: 1px solid #673ab7;
+    border-radius: 4px;
+    background-color: transparent;
+    cursor: pointer;
+    min-width: 120px;
+    text-align: center;
+    transition: all 0.2s ease;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    padding: 0 16px;
+    height: 36px;
+    line-height: 36px;
+}
+
+.action-link:hover {
+    background-color: rgba(103, 58, 183, 0.1);
+}
+
+
+.group-description {
+    margin: 16px 0 !important;
+    color: #555 !important;
+    white-space: normal !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 3 !important;
+    -webkit-box-orient: vertical !important;
+    line-height: 1.5 !important;
+    max-height: 4.5em !important;
+    word-wrap: break-word !important;
+    word-break: break-word !important;
+}
+  
+/* Settings message box */
+.settings-message {
+    display: flex;
+    align-items: flex-start;
+    background-color: #f0f4ff;
+    padding: 16px;
+    border-radius: 4px;
+    margin-bottom: 24px;
+    border: 1px solid #d1d9ff;
+}
+
+.settings-message mat-icon {
+    color: #3f51b5;
+    margin-right: 12px;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.settings-message p {
+    margin: 0;
+    color: #333;
+}
+
+/* General common styling */
+.accent {
+    background-color: var(--mat-sys-secondary-container) !important;
+    color: var(--mat-sys-on-secondary-container) !important;
+}
+  
+.warn {
+    background-color: var(--mat-sys-error-container) !important;
+    color: var(--mat-sys-on-error-container) !important;
+}
+
+/* Subscription container */
+.subscription-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+/* Dialog backdrop and overlay styles */
+.dialog-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .delete-confirmation-dialog {
+    background-color: white;
+    border-radius: 8px;
+    padding: 24px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  .delete-confirmation-dialog h2 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #d32f2f;
+    margin: 0 0 16px 0;
+  }
+  
+  .delete-confirmation-dialog p {
+    margin-bottom: 24px;
+    color: #555;
+    line-height: 1.5;
+  }
+  
+  .delete-confirmation-dialog .full-width {
+    width: 100%;
+    margin-bottom: 24px;
+  }
+  
+  .delete-confirmation-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+  }
+  
+  /* Makes spinner inside buttons properly centered */
+  button mat-spinner {
+    display: inline-block;
+    margin: 0 auto;
+  }
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .profile-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 16px;
+        padding: 24px 16px;
+    }
+
+    .profile-avatar {
+        margin-right: 0;
+        width: 100px;
+        height: 100px;
+    }
+
+    .profile-stats {
+        justify-content: center;
+    }
+    
+    .name-section {
+        justify-content: center;
+        margin: 0 auto;
+        max-width: 80%;
+    }
+    
+    .name-display {
+        text-align: center;
+        padding-right: 0;
+    }
+    
+    .edit-name-btn {
+        position: static;
+        transform: none;
+        margin-left: 8px;
+    }
+    
+    .name-edit-form, .material-name-form {
+        max-width: 100%;
+    }
+
+    /* Maintain row structure on tablet */
+    .info-item {
+        flex-direction: row;
+    }
+
+    .info-label {
+        min-width: 120px;
+        width: 120px;
+    }
+    
+    .premium-status-header {
+        justify-content: center;
+    }
+    
+    .premium-details .info-item {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .groups-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+    
+    /* Adjust stat for horizontal layout on mobile */
+    .stat {
+        flex-direction: row;
+        align-items: center;
+    }
+}
+  
+@media (max-width: 600px) {
+    .profile-nav {
+        flex-wrap: wrap;
+    }
+
+    .profile-nav button {
+        flex: 1 0 50%;
+        padding: 12px;
+    }
+
+    .profile-tab-content {
+        padding: 24px 16px;
+    }
+
+    /* Adjust rows for mobile */
+    .info-item {
+        flex-direction: column;
+        min-height: auto;
+        padding: 8px 0;
+    }
+
+    .info-label, 
+    .info-value {
+        width: 100%;
+        padding: 8px 0;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .action-buttons button {
+        width: 100%;
+    }
+
+    /* Keep phone display usable on mobile */
+    .phone-display {
+        width: 100%;
+    }
+    
+    /* Full width upload button on small screens */
+    .upload-picture-section button {
+        width: 100%;
+    }
+    
+    .selected-file-name {
+        width: 100%;
+        max-width: 100%;
+    }
+    
+    .premium-details .info-label,
+    .premium-details .info-value {
+        width: 100%;
+        padding: 4px 0;
+        text-align: center;
+    }
+    
+    .non-premium-box button {
+        width: 100%;
+    }
+    
+    /* Adjust groups grid for small screens */
+    .groups-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Keep horizontal stats layout on mobile */
+    .profile-stats {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .stat {
+        margin-bottom: 8px;
+    }
+}

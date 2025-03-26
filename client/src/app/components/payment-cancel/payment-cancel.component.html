@@ -1,0 +1,22 @@
+<div class="cancel-container">
+    <!-- Header with Navigation -->
+    <app-shared-navbar></app-shared-navbar>
+    
+    <div class="cancel-content">
+      <div class="cancel-card">
+        <div class="cancel-icon">
+          <mat-icon>highlight_off</mat-icon>
+        </div>
+        <h1>Payment Cancelled</h1>
+        <p>Your premium subscription payment was cancelled.</p>
+        <p>You can try again or continue using our free features.</p>
+        <div class="cancel-actions">
+          <button mat-stroked-button (click)="goToHome()">Return to Home</button>
+          <button mat-raised-button color="primary" (click)="goToPremium()">Try Again</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Footer -->
+    <app-shared-footer></app-shared-footer>
+  </div>

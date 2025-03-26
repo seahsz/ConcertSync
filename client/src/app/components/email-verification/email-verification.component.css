@@ -1,0 +1,139 @@
+  /* Verification Container Styles */
+  .verification-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 64px 24px;
+    min-height: calc(100vh - 64px);
+    background: linear-gradient(135deg, #f0e6ff 0%, #e8ddff 100%);
+  }
+  
+  .verification-card {
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    padding: 32px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+  
+  .verification-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Loading State Styles */
+  .verification-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 0;
+  }
+  
+  .verification-loading h2 {
+    margin-top: 24px;
+    margin-bottom: 8px;
+    color: #673ab7;
+    font-weight: 500;
+  }
+  
+  .verification-loading p {
+    color: #666;
+    margin-bottom: 0;
+  }
+  
+  /* Success State Styles */
+  .verification-success {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 0;
+  }
+  
+  .success-icon {
+    font-size: 64px;
+    height: 64px;
+    width: 64px;
+    color: #4caf50;
+    margin-bottom: 16px;
+  }
+  
+  .verification-success h2 {
+    color: #4caf50;
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+  
+  .verification-success p {
+    color: #666;
+    margin-bottom: 16px;
+    max-width: 400px;
+  }
+  
+  .redirect-message {
+    font-style: italic;
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 24px;
+  }
+  
+  /* Error State Styles */
+  .verification-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 0;
+  }
+  
+  .error-icon {
+    font-size: 64px;
+    height: 64px;
+    width: 64px;
+    color: #f44336;
+    margin-bottom: 16px;
+  }
+  
+  .verification-error h2 {
+    color: #f44336;
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+  
+  .verification-error p {
+    color: #666;
+    margin-bottom: 24px;
+    max-width: 400px;
+  }
+  
+  .error-actions {
+    display: flex;
+    gap: 16px;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 600px) {
+    .verification-container {
+      padding: 32px 16px;
+    }
+  
+    .verification-card {
+      padding: 24px 16px;
+    }
+  
+    .nav-links {
+      display: none;
+    }
+  
+    .error-actions {
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+    }
+  
+    .error-actions button {
+      width: 100%;
+    }
+  }

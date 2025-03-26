@@ -1,0 +1,151 @@
+<div class="concert-sync-container">
+    <!-- Header with Navigation -->
+    <app-shared-navbar></app-shared-navbar>
+  
+    <!-- Setlist Explorer Content -->
+    <div class="setlist-explorer-container">
+      <div class="explorer-header">
+        <div class="header-content">
+          <h1 class="explorer-title">Setlist Explorer</h1>
+          <p class="explorer-subtitle">Discover what your favorite artists play live</p>
+        </div>
+      </div>
+  
+      <!-- Search Section -->
+      <div class="search-section">
+        <div class="search-container">
+          <form [formGroup]="searchForm">
+            <mat-form-field appearance="outline" class="search-field">
+              <mat-label>Search by Artist</mat-label>
+              <input matInput formControlName="artist" placeholder="Enter artist name" [matAutocomplete]="auto">
+              @if (searchForm.get('artist')?.value) {
+                <button matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch()">
+                  <mat-icon>close</mat-icon>
+                </button>
+              }
+              <mat-icon matSuffix>search</mat-icon>
+              <mat-autocomplete #auto="matAutocomplete">
+                @for (artist of filteredArtists; track artist) {
+                  <mat-option [value]="artist">{{ artist }}</mat-option>
+                }
+              </mat-autocomplete>
+            </mat-form-field>
+          </form>
+        </div>
+      </div>
+  
+      <!-- Main Content -->
+      <div class="setlists-content">
+        <!-- Loading State -->
+        @if (loading$ | async) {
+          <div class="loading-container">
+            <mat-spinner diameter="50"></mat-spinner>
+            <p>Loading setlists...</p>
+          </div>
+        }
+  
+        <!-- Error State -->
+        @if (error$ | async; as error) {
+          <div class="error-container">
+            <mat-icon class="error-icon">error</mat-icon>
+            <h2>Error Loading Setlists</h2>
+            <p>{{ error }}</p>
+            <button mat-raised-button color="primary" (click)="clearSearch()">Try Again</button>
+          </div>
+        }
+  
+        <!-- Results Header -->
+        @if ((setlists$ | async)?.length && !(loading$ | async)) {
+          <div class="results-header">
+            @if (selectedArtist$ | async; as selectedArtist) {
+              <h2>Setlists for {{ selectedArtist }}</h2>
+            } @else {
+              <h2>All Setlists</h2>
+            }
+          </div>
+        }
+  
+        <!-- No Results State -->
+        @if ((setlists$ | async)?.length === 0 && !(loading$ | async) && !(error$ | async)) {
+          <div class="no-results-container">
+            <mat-icon class="no-results-icon">queue_music</mat-icon>
+            <h2>No Setlists Found</h2>
+            @if (selectedArtist$ | async; as selectedArtist) {
+              <p>No setlists found for {{ selectedArtist }}. Try searching for a different artist.</p>
+            } @else {
+              <p>No setlists available. Try searching for an artist to see their setlists.</p>
+            }
+          </div>
+        }
+  
+        <!-- Setlists List -->
+        @if ((setlists$ | async)?.length && !(loading$ | async)) {
+          <div class="setlists-list">
+            @for (setlist of (setlists$ | async); track setlist.id) {
+              <mat-card class="setlist-card" [class.expanded]="isSetlistExpanded(setlist.id)">
+                <mat-card-header (click)="toggleSetlistExpansion(setlist.id)">
+                  <mat-card-title>{{ setlist.artistName }}</mat-card-title>
+                  <mat-card-subtitle>
+                    <div class="setlist-meta">
+                      <span class="setlist-venue">{{ setlist.venueName }}</span>
+                      <span class="setlist-location">{{ setlist.cityName }}, {{ setlist.countryName }}</span>
+                      <span class="setlist-date">{{ formatDate(setlist.eventDate) }}</span>
+                    </div>
+                    @if (setlist.tourName) {
+                      <div class="setlist-tour">
+                        <mat-icon>tour</mat-icon> {{ setlist.tourName }}
+                      </div>
+                    }
+                  </mat-card-subtitle>
+                  <button mat-icon-button class="expand-button">
+                    <mat-icon>{{ isSetlistExpanded(setlist.id) ? 'expand_less' : 'expand_more' }}</mat-icon>
+                  </button>
+                </mat-card-header>
+                
+                @if (isSetlistExpanded(setlist.id)) {
+                  <mat-card-content>
+                    @if (setlist.sets && setlist.sets.length > 0) {
+                      @for (set of setlist.sets; track set.name) {
+                        <div class="setlist-set">
+                          @if (set.name) {
+                            <h3 class="set-name">{{ set.name }}</h3>
+                          }
+                          
+                          @if (set.songs && set.songs.length > 0) {
+                            <ol class="songs-list">
+                              @for (song of set.songs; track song.name) {
+                                <li class="song-item" [class.tape-song]="song.tape">
+                                  <div class="song-name">
+                                    {{ song.name }}
+                                    @if (song.tape) {
+                                      <span class="tape-badge">TAPE</span>
+                                    }
+                                  </div>
+                                  @if (song.info) {
+                                    <div class="song-info">{{ song.info }}</div>
+                                  }
+                                </li>
+                              }
+                            </ol>
+                          } @else {
+                            <p class="no-songs">No songs listed for this set</p>
+                          }
+                        </div>
+                      }
+                    } @else {
+                      <div class="no-sets">
+                        <p>No setlist information available</p>
+                      </div>
+                    }
+                  </mat-card-content>
+                }
+              </mat-card>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+  
+  <!-- Footer -->
+  <app-shared-footer></app-shared-footer>

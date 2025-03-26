@@ -1,0 +1,238 @@
+<div class="concert-sync-container">
+    <!-- Header with Navigation -->
+    <app-shared-navbar></app-shared-navbar>
+
+    <!-- Group Details Content -->
+    <div class="group-details-container">
+        <!-- Loading State -->
+        @if (isLoading) {
+        <div class="loading-container">
+            <mat-spinner diameter="50"></mat-spinner>
+            <p>Loading group details...</p>
+        </div>
+        } @else {
+        <div class="details-content">
+            <!-- Group Header -->
+            <div class="group-header">
+                <div class="header-content">
+                    <div class="back-button">
+                        <button mat-icon-button (click)="goBackToGroups()" aria-label="Back to groups">
+                            <mat-icon>arrow_back</mat-icon>
+                        </button>
+                    </div>
+                    <div class="group-title">
+                        <h1>{{ group.name }}</h1>
+                        <div class="group-meta">
+                            <span class="group-type">
+                                <mat-icon>{{ group.isPublic ? 'public' : 'lock' }}</mat-icon>
+                                {{ group.isPublic ? 'Public Group' : 'Private Group' }}
+                            </span>
+                            <span class="member-count">
+                                <mat-icon>group</mat-icon>
+                                {{ members.length }}/{{ group.capacity }} Members
+                            </span>
+                            <span class="concert-date">
+                                <mat-icon>event</mat-icon>
+                                {{ group.concertDate | date:'mediumDate' }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="group-actions">
+                        <!-- Join Group Button (for non-members) -->
+                        @if (currentUserRole === 'not-member') {
+                        <button mat-raised-button color="primary" (click)="joinGroup()">
+                            <mat-icon>person_add</mat-icon>
+                            Join Group
+                        </button>
+                        }
+
+                        <!-- Pending Request Status -->
+                        @if (currentUserRole === 'pending') {
+                        <button mat-stroked-button disabled>
+                            <mat-icon>hourglass_empty</mat-icon>
+                            Join Request Pending
+                        </button>
+                        }
+
+                        <!-- Leave Group Button (for members) -->
+                        @if (currentUserRole === 'member') {
+                        <button mat-stroked-button color="warn" (click)="leaveGroup()">
+                            <mat-icon>exit_to_app</mat-icon>
+                            Leave Group
+                        </button>
+                        }
+                    </div>
+                </div>
+
+                <mat-divider></mat-divider>
+
+                <div class="group-description">
+                    <p>{{ group.description }}</p>
+                </div>
+            </div>
+
+            <!-- Main Content: Split into Chat Area and Sidebar -->
+            <div class="main-content">
+                <!-- Chat Area -->
+                <div class="chat-area">
+                    <div class="section-header" (click)="toggleSection('chat')">
+                        <h2>
+                            <mat-icon>chat</mat-icon>
+                            Group Chat
+                        </h2>
+                        <button mat-icon-button>
+                            <mat-icon>{{ showChatSection ? 'expand_less' : 'expand_more' }}</mat-icon>
+                        </button>
+                    </div>
+
+                    @if (showChatSection) {
+                    <div class="chat-container">
+                        @if (messagesLoading) {
+                        <div class="chat-loading">
+                            <mat-spinner diameter="40"></mat-spinner>
+                            <p>Loading messages...</p>
+                        </div>
+                        } @else if (messages.length === 0) {
+                        <div class="empty-chat">
+                            <mat-icon>forum</mat-icon>
+                            <p>No messages yet. Be the first to start the conversation!</p>
+                        </div>
+                        } @else {
+                        <div class="chat-messages">
+                            @for (message of messages; track message.id) {
+                            <div class="message-item" [class.own-message]="message.userId === currentUserId">
+                                <div class="message-avatar">
+                                    <img [src]="message.profilePictureUrl || '/images/blank_profile_pic_160px.png'"
+                                        [alt]="message.username">
+                                </div>
+                                <div class="message-content">
+                                    <div class="message-header">
+                                        <span class="message-sender">{{ message.name }}</span>
+                                        <span class="message-time">{{ formatDate(message.createdAt) }}</span>
+                                    </div>
+                                    <div class="message-text">
+                                        {{ message.message }}
+                                    </div>
+                                </div>
+                            </div>
+                            }
+                        </div>
+                        }
+
+                        <!-- Message Input (for members and creators) -->
+                        @if (currentUserRole === 'member' || currentUserRole === 'creator') {
+                        <div class="message-input">
+                            <form [formGroup]="messageForm" (ngSubmit)="sendMessage()">
+                                <mat-form-field appearance="outline" class="message-field">
+                                    <textarea matInput formControlName="message" placeholder="Type a message..."
+                                        cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5"></textarea>
+                                </mat-form-field>
+                                <button mat-icon-button color="primary" type="submit" [disabled]="isMessageInvalid()">
+                                    <mat-icon>send</mat-icon>
+                                </button>
+                            </form>
+                        </div>
+                        }
+                    </div>
+                    }
+                </div>
+
+                <!-- Sidebar with Members and Pending Requests -->
+                <div class="sidebar">
+                    <!-- Members Section -->
+                    <div class="section-container">
+                        <div class="section-header" (click)="toggleSection('members')">
+                            <h2>
+                                <mat-icon>people</mat-icon>
+                                Members
+                            </h2>
+                            <button mat-icon-button>
+                                <mat-icon>{{ showMembersSection ? 'expand_less' : 'expand_more' }}</mat-icon>
+                            </button>
+                        </div>
+
+                        @if (showMembersSection) {
+                        <div class="members-list">
+                            @for (member of members; track member.id) {
+                            <div class="member-item">
+                                <div class="member-avatar">
+                                    <img [src]="member.profilePictureUrl || '/images/blank_profile_pic_160px.png'"
+                                        [alt]="member.username">
+                                </div>
+                                <div class="member-details">
+                                    <span class="member-name">{{ member.name }}</span>
+                                    <span class="member-username">&#64;{{ member.username }}</span>
+                                </div>
+                                @if (member.id === group.creatorId) {
+                                <span class="creator-badge">Creator</span>
+                                }
+                            </div>
+                            }
+                        </div>
+                        }
+                    </div>
+
+                    <!-- Pending Requests Section (Only for Creator) -->
+                    @if (isCreator) {
+                    <div class="section-container">
+                        <div class="section-header" (click)="toggleSection('requests')">
+                            <h2>
+                                <mat-icon>person_add</mat-icon>
+                                Join Requests
+                                @if (pendingRequests.length > 0) {
+                                <span class="request-badge">{{ pendingRequests.length }}</span>
+                                }
+                            </h2>
+                            <button mat-icon-button>
+                                <mat-icon>{{ showRequestsSection ? 'expand_less' : 'expand_more' }}</mat-icon>
+                            </button>
+                        </div>
+
+                        @if (showRequestsSection) {
+                        <div class="requests-list">
+                            @if (pendingRequestsLoading) {
+                            <div class="loading-container">
+                                <mat-spinner diameter="30"></mat-spinner>
+                                <p>Loading requests...</p>
+                            </div>
+                            } @else if (pendingRequests.length === 0) {
+                            <div class="empty-requests">
+                                <p>No pending join requests</p>
+                            </div>
+                            } @else {
+                            @for (request of pendingRequests; track request.id) {
+                            <div class="request-item">
+                                <div class="member-avatar">
+                                    <img [src]="request.profilePictureUrl || '/images/blank_profile_pic_160px.png'"
+                                        [alt]="request.username">
+                                </div>
+                                <div class="member-details">
+                                    <span class="member-name">{{ request.name }}</span>
+                                    <span class="member-username">&#64;{{ request.username }}</span>
+                                </div>
+                                <div class="request-actions">
+                                    <button mat-icon-button color="primary" (click)="approveJoinRequest(request.id)"
+                                        aria-label="Approve">
+                                        <mat-icon>check_circle</mat-icon>
+                                    </button>
+                                    <button mat-icon-button color="warn" (click)="rejectJoinRequest(request.id)"
+                                        aria-label="Reject">
+                                        <mat-icon>cancel</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                            }
+                            }
+                        </div>
+                        }
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+</div>
+
+<!-- Footer -->
+<app-shared-footer></app-shared-footer>

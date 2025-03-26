@@ -1,0 +1,237 @@
+<div class="concert-sync-container">
+  <!-- Header with Navigation -->
+  <app-shared-navbar></app-shared-navbar>
+
+  <!-- Main Content -->
+  <div class="group-finder-container">
+    <div class="finder-header">
+      <div class="header-content">
+        <h1 class="finder-title">Find Concert Groups</h1>
+        <p class="finder-subtitle">Join fellow music fans to enjoy concerts together</p>
+      </div>
+    </div>
+
+    <!-- Main Content Area - 2 Column Layout -->
+    <div class="finder-content">
+      <!-- Left Column - Concerts List -->
+      <div class="concerts-panel">
+        <div class="panel-header">
+          <h2>Upcoming Concerts</h2>
+          <mat-form-field appearance="outline" class="search-field">
+            <mat-label>Search concerts</mat-label>
+            <input matInput [formControl]="searchInput" placeholder="Artist or venue">
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <!-- Loading and Error States -->
+        @if (loading.concerts) {
+          <div class="loading-container">
+            <mat-spinner diameter="40"></mat-spinner>
+            <p>Loading concerts...</p>
+          </div>
+        }
+
+        @if (error.concerts) {
+          <div class="error-container">
+            <mat-icon class="warn">error_outline</mat-icon>
+            <p>{{ error.concerts }}</p>
+            <button mat-button color="primary" (click)="loadUpcomingConcerts()">Try Again</button>
+          </div>
+        }
+
+        <!-- Concert List -->
+        @if (!loading.concerts && !error.concerts) {
+          <div class="concerts-list">
+            @if (filteredConcerts.length === 0) {
+              <div class="empty-state">
+                <mat-icon>search_off</mat-icon>
+                <p>No concerts found matching your search.</p>
+              </div>
+            }
+
+            @for (concert of filteredConcerts; track concert.id) {
+              <div class="concert-item" [class.active]="selectedConcert?.id === concert.id"
+                (click)="loadConcertGroups(concert)">
+                <div class="concert-image">
+                  <img [src]="concert.image_url_320 || '/images/placeholder-concert.jpg'" [alt]="concert.artist">
+                </div>
+                <div class="concert-details">
+                  <h3>{{ concert.artist }}</h3>
+                  <p class="venue">
+                    <mat-icon>location_on</mat-icon>
+                    {{ concert.venue }}
+                  </p>
+                  <p class="date">
+                    <mat-icon>event</mat-icon>
+                    {{ formatMultipleDates(concert) }}
+                  </p>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Right Column - Groups for Selected Concert -->
+      <div class="groups-panel">
+        <!-- When no concert is selected -->
+        @if (!selectedConcert && !loading.concerts) {
+          <div class="no-selection">
+            <mat-icon>group</mat-icon>
+            <h3>Select a concert to view groups</h3>
+            <p>Browse available groups or create your own.</p>
+          </div>
+        }
+
+        <!-- When a concert is selected -->
+        @if (selectedConcert) {
+          <div class="selected-concert-groups">
+            <div class="panel-header with-action">
+              <h2>Groups for {{ selectedConcert.artist }}</h2>
+              <button mat-raised-button color="primary" (click)="createGroup(selectedConcert)">
+                <mat-icon>add</mat-icon>
+                Create Group
+              </button>
+            </div>
+
+            <!-- Loading and Error States -->
+            @if (loading.groups) {
+              <div class="loading-container">
+                <mat-spinner diameter="40"></mat-spinner>
+                <p>Loading groups...</p>
+              </div>
+            }
+
+            @if (error.groups) {
+              <div class="error-container">
+                <mat-icon class="warn">error_outline</mat-icon>
+                <p>{{ error.groups }}</p>
+                <button mat-button color="primary" (click)="loadConcertGroups(selectedConcert)">Try Again</button>
+              </div>
+            }
+
+            <!-- Groups List -->
+            @if (!loading.groups && !error.groups) {
+              <div class="groups-list">
+                @if (concertGroups.length === 0) {
+                  <div class="empty-state">
+                    <mat-icon>groups</mat-icon>
+                    <h3>No groups found</h3>
+                    <p>Be the first to create a group for this concert!</p>
+                    <button mat-raised-button color="primary" (click)="createGroup(selectedConcert)">
+                      Create Group
+                    </button>
+                  </div>
+                }
+                @for (group of concertGroups; track group.id) {
+                  <mat-card class="group-card">
+                    <div class="group-title-area">
+                      <h3 class="group-title">{{ group.name }}</h3>
+                      <div class="members-badge">
+                        <mat-icon>people</mat-icon>
+                        <span>{{ group.memberCount }}/{{ group.capacity }} members</span>
+                      </div>
+                      <div class="group-meta">
+                        <div class="meta-item">
+                          <mat-icon>event</mat-icon>
+                          <span>{{ group.concertDate | date:'mediumDate' }}</span>
+                        </div>
+                        <div class="meta-item">
+                          <mat-icon>{{ group.isPublic ? 'public' : 'lock' }}</mat-icon>
+                          <span>{{ group.isPublic ? 'Public Group' : 'Private Group' }}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-divider"></div>
+                    <div class="group-description">
+                      <p>{{ group.description | slice:0:100 }}{{ group.description.length > 100 ? '...' : '' }}</p>
+                    </div>
+                    <div class="card-divider"></div>
+                    <div class="group-actions">
+                      <button mat-stroked-button class="action-link" [routerLink]="['/groups', group.id]">View Details</button>
+                      <button mat-raised-button color="primary" class="join-button" (click)="joinGroup(group)">Join Group</button>
+                    </div>
+                  </mat-card>
+                }
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- My Groups Section - Full Width -->
+    <div class="my-groups-section">
+      <div class="my-groups-container">
+        <div class="my-groups-header">
+          <h2>My Groups</h2>
+        </div>
+
+        <!-- Loading State -->
+        @if (loading.myGroups) {
+          <div class="loading-container">
+            <mat-spinner diameter="40"></mat-spinner>
+            <p>Loading your groups...</p>
+          </div>
+        }
+
+        <!-- Error State -->
+        @if (error.myGroups) {
+          <div class="error-container">
+            <mat-icon class="warn">error_outline</mat-icon>
+            <p>{{ error.myGroups }}</p>
+            <button mat-button color="primary" (click)="loadMyGroups()">Try Again</button>
+          </div>
+        }
+
+        <!-- My Groups List -->
+        @if (!loading.myGroups && !error.myGroups) {
+          @if (myGroups.length === 0) {
+            <div class="empty-groups-state">
+              <mat-icon>group_off</mat-icon>
+              <h3>You haven't joined any groups yet</h3>
+              <p>Find a concert above and join or create a group!</p>
+              <button mat-raised-button color="primary" class="action-button" (click)="scrollToTop()">Browse Concerts</button>
+            </div>
+          } @else {
+            <div class="my-groups-grid">
+              @for (group of myGroups; track group.id) {
+                <mat-card class="group-card">
+                  <div class="group-title-area">
+                    <h3 class="group-title">{{ group.name }}</h3>
+                    <div class="members-badge">
+                      <mat-icon>people</mat-icon>
+                      <span>{{ group.memberCount }}/{{ group.capacity }} members</span>
+                    </div>
+                    <div class="group-meta">
+                      <div class="meta-item">
+                        <mat-icon>event</mat-icon>
+                        <span>{{ group.concertDate | date:'mediumDate' }}</span>
+                      </div>
+                      <div class="meta-item">
+                        <mat-icon>{{ group.isPublic ? 'public' : 'lock' }}</mat-icon>
+                        <span>{{ group.isPublic ? 'Public Group' : 'Private Group' }}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-divider"></div>
+                  <div class="group-description">
+                    <p>{{ group.description | slice:0:100 }}{{ group.description.length > 100 ? '...' : '' }}</p>
+                  </div>
+                  <div class="card-divider"></div>
+                  <div class="group-actions">
+                    <button mat-stroked-button class="action-link" [routerLink]="['/groups', group.id]">View Details</button>
+                  </div>
+                </mat-card>
+              }
+            </div>
+          }
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <app-shared-footer></app-shared-footer>
+</div>

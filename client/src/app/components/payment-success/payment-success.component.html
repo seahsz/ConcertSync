@@ -1,0 +1,23 @@
+<div class="success-container">
+    <!-- Header with Navigation -->
+    <app-shared-navbar></app-shared-navbar>
+    
+    <div class="success-content">
+      <div class="success-card">
+        <div class="success-icon">
+          <mat-icon>check_circle</mat-icon>
+        </div>
+        <h1>Payment Successful!</h1>
+        <p>Thank you for subscribing to ConcertSync Premium!</p>
+        <p>Your premium features are now being activated. You will be redirected to your profile shortly.</p>
+        <div class="loading-indicator">
+          <mat-spinner diameter="30"></mat-spinner>
+          <span>Processing subscription...</span>
+        </div>
+        <button mat-raised-button color="primary" (click)="redirectToProfile()">Go to Profile</button>
+      </div>
+    </div>
+    
+    <!-- Footer -->
+    <app-shared-footer></app-shared-footer>
+  </div>

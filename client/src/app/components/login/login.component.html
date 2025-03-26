@@ -1,0 +1,100 @@
+<div class="concert-sync-container">
+    <!-- Shared Navbar -->
+    <app-shared-navbar></app-shared-navbar>
+  
+    <!-- Login Section -->
+    <div class="login-container">
+      <mat-card class="login-card">
+        <mat-card-header>
+          <div class="header-content">
+            <mat-card-title>Welcome Back</mat-card-title>
+            <mat-card-subtitle>Sign in to your ConcertSync account</mat-card-subtitle>
+          </div>
+        </mat-card-header>
+        
+        <mat-card-content>
+          <!-- Error Alerts -->
+          @if (invalidCredentials) {
+            <div class="error-message">
+              <mat-icon>error</mat-icon>
+              <span>Invalid username or password. Please try again.</span>
+            </div>
+          }
+          
+          @if (emailUnverified) {
+            <div class="error-message email-unverified">
+              <mat-icon>mark_email_unread</mat-icon>
+              <div class="message-content">
+                <span>Your email address is not verified.</span>
+                <button mat-button (click)="resendVerificationEmail()">Resend verification email</button>
+              </div>
+            </div>
+          }
+          
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <!-- Username Field -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Username</mat-label>
+              <input matInput formControlName="username" placeholder="Enter your username">
+              <mat-icon matSuffix>person</mat-icon>
+              @if (loginForm.get('username')?.invalid && loginForm.get('username')?.touched) {
+                <mat-error>Username is required</mat-error>
+              }
+            </mat-form-field>
+  
+            <!-- Password Field -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Password</mat-label>
+              <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" placeholder="Enter your password">
+              <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
+                <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+              </button>
+              @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
+                <mat-error>Password is required</mat-error>
+              }
+            </mat-form-field>
+  
+            <!-- Remember Me & Forgot Password -->
+            <!-- <div class="login-options">
+              <mat-checkbox formControlName="rememberMe">Remember me</mat-checkbox>
+              <a href="#" class="forgot-password">Forgot password?</a>
+            </div> -->
+  
+            <!-- Submit Button -->
+            <div class="form-actions">
+              <button mat-raised-button type="submit" class="submit-button" [disabled]="loginForm.invalid || submitting">
+                @if (!submitting) {
+                  <span>Sign In</span>
+                } @else {
+                  <mat-spinner diameter="24"></mat-spinner>
+                }
+              </button>
+            </div>
+          </form>
+          
+          <!-- Social Login Options
+          <div class="social-login">
+            <div class="divider">
+              <span>or</span>
+            </div>
+            <button mat-stroked-button class="social-button google">
+              <img src="/assets/google-icon.svg" alt="Google" class="social-icon">
+              <span>Continue with Google</span>
+            </button>
+            <button mat-stroked-button class="social-button facebook">
+              <mat-icon class="facebook-icon">facebook</mat-icon>
+              <span>Continue with Facebook</span>
+            </button>
+          </div> -->
+        </mat-card-content>
+  
+        <mat-card-actions class="card-actions">
+          <span>Don't have an account?</span>
+          <button mat-button (click)="goToRegister()">Sign Up</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+  
+  <!-- Shared Footer -->
+  <app-shared-footer></app-shared-footer>

@@ -1,0 +1,132 @@
+.simple-footer {
+    background-color: #212121;
+    color: #fff;
+    padding: 40px 0 20px;
+    margin-top: 0;
+  }
+  
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 40px;
+  }
+  
+  .footer-logo {
+    flex: 1;
+    min-width: 250px;
+  }
+  
+  .logo-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  
+  .footer-logo-img {
+    width: 40px;
+    height: 40px;
+    margin-right: 12px;
+  }
+  
+  .footer-logo-text {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    background: linear-gradient(135deg, #673ab7 0%, #9c27b0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .footer-tagline {
+    color: #bbb;
+    margin: 0;
+    font-size: 14px;
+  }
+  
+  .footer-links {
+    flex: 1;
+    min-width: 180px;
+    max-width: 250px;
+  }
+  
+  .footer-links h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    position: relative;
+    padding-bottom: 8px;
+  }
+  
+  .footer-links h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background: linear-gradient(135deg, #673ab7 0%, #9c27b0 100%);
+    border-radius: 2px;
+  }
+  
+  .footer-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .footer-links li {
+    margin-bottom: 10px;
+  }
+  
+  .footer-links a {
+    color: #bbb;
+    text-decoration: none;
+    transition: color 0.3s ease, transform 0.2s ease;
+    display: inline-block;
+  }
+  
+  .footer-links a:hover {
+    color: #fff;
+    transform: translateX(5px);
+  }
+  
+  .footer-bottom {
+    text-align: center;
+    border-top: 1px solid #333;
+    margin-top: 40px;
+    padding-top: 20px;
+    padding-bottom: 10px;
+  }
+  
+  .footer-bottom p {
+    color: #999;
+    font-size: 14px;
+    margin: 0;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .footer-content {
+      flex-direction: column;
+      gap: 32px;
+    }
+    
+    .footer-links {
+      max-width: 100%;
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .simple-footer {
+      padding: 32px 0 80px; /* Extra bottom padding for mobile nav */
+    }
+    
+    .footer-content {
+      padding: 0 16px;
+    }
+  }

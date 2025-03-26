@@ -1,0 +1,123 @@
+<div class="concert-sync-container">
+  <!-- Header with Navigation -->
+  <app-shared-navbar></app-shared-navbar>
+
+  <div class="premium-container">
+    <!-- Back Button Navigation -->
+    <div class="back-navigation">
+      <button mat-button class="text-back-button" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+        <span>Back</span>
+      </button>
+    </div>
+    
+    <!-- Loading State -->
+    @if (loading) {
+      <div class="loading-container">
+        <mat-spinner diameter="50"></mat-spinner>
+        <p>Loading subscription information...</p>
+      </div>
+    } @else {
+      <mat-card class="premium-card">
+        <div class="premium-header">
+          <h1>ConcertSync Premium</h1>
+          <p class="subtitle">Enhance your concert experience</p>
+        </div>
+        
+        <mat-card-content>
+          <!-- Premium Status Badge -->
+          @if (userProfile?.premium_status) {
+            <div class="status-badge">
+              <mat-icon class="premium-icon">workspace_premium</mat-icon>
+              <span>Premium Active</span>
+            </div>
+          }
+          
+          <!-- For non-premium users -->
+          @if (!userProfile?.premium_status) {
+            <div class="premium-info">
+              <h2>Upgrade to Premium</h2>
+              <div class="benefits-list">
+                <div class="benefit-item">
+                  <mat-icon class="accent">add_circle</mat-icon>
+                  <span>Create up to 10 concert groups (vs 2 for free users)</span>
+                </div>
+                
+                <!-- Additional benefits could be added here -->
+                <div class="benefit-item">
+                  <mat-icon class="accent">priority_high</mat-icon>
+                  <span>Priority access to new features</span>
+                </div>
+                
+                <div class="benefit-item">
+                  <mat-icon class="accent">verified_user</mat-icon>
+                  <span>Premium profile badge</span>
+                </div>
+              </div>
+              
+              <div class="pricing">
+                <span class="price">$5</span>
+                <span class="price-period">/month</span>
+              </div>
+              
+              <button mat-raised-button class="subscribe-button accent" [disabled]="loading" (click)="subscribe()">
+                @if (loading) {
+                  <mat-spinner diameter="20" class="button-spinner"></mat-spinner>
+                } @else {
+                  <span>Upgrade Now</span>
+                }
+              </button>
+            </div>
+          }
+          
+          <!-- For premium users -->
+          @if (userProfile?.premium_status) {
+            <div class="premium-status">
+              <div class="subscription-details">
+                <div class="detail-item">
+                  <span class="detail-label">Next Billing Date:</span>
+                  <span class="detail-value">{{ formatDate(userProfile?.premium_expiry) }}</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Auto-Renewal:</span>
+                  <span class="detail-value">{{ userProfile?.auto_renew ? 'Enabled' : 'Disabled' }}</span>
+                </div>
+              </div>
+              
+              <div class="subscription-alert">
+                @if (userProfile?.auto_renew) {
+                  <div class="active-subscription-info">
+                    <mat-icon>check_circle</mat-icon>
+                    <span>Your subscription will automatically renew on {{ formatDate(userProfile?.premium_expiry) }}</span>
+                  </div>
+                  <button mat-stroked-button class="cancel-button warn" [disabled]="cancelling" (click)="cancelSubscription()">
+                    @if (cancelling) {
+                      <mat-spinner diameter="20" class="button-spinner"></mat-spinner>
+                    } @else {
+                      <span>Cancel Subscription</span>
+                    }
+                  </button>
+                } @else {
+                  <div class="cancellation-notice">
+                    <mat-icon>info</mat-icon>
+                    <span>Your subscription will end on {{ formatDate(userProfile?.premium_expiry) }}</span>
+                  </div>
+                  <button mat-raised-button class="accent" [disabled]="loading" (click)="reactivateSubscription()">
+                    @if (loading) {
+                      <mat-spinner diameter="20" class="button-spinner"></mat-spinner>
+                    } @else {
+                      <span>Reactivate Subscription</span>
+                    }
+                  </button>
+                }
+              </div>
+            </div>
+          }
+        </mat-card-content>
+      </mat-card>
+    }
+  </div>
+  
+  <!-- Footer -->
+  <app-shared-footer></app-shared-footer>
+</div>

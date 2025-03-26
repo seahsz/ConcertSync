@@ -1,0 +1,111 @@
+<div class="concert-sync-container">
+    <!-- Header with Navigation -->
+    <app-shared-navbar></app-shared-navbar>
+  
+    <!-- Group Creation Content -->
+    <div class="creation-container">
+      <mat-card class="creation-card">
+        <mat-card-header>
+          <mat-card-title>Create Concert Group</mat-card-title>
+          @if (concert) {
+            <mat-card-subtitle>For {{ concert.artist }} at {{ concert.venue }}</mat-card-subtitle>
+          }
+        </mat-card-header>
+  
+        <mat-card-content>
+          <!-- Loading State -->
+          @if (isLoading) {
+            <div class="loading-container">
+              <mat-spinner diameter="50"></mat-spinner>
+              <p>Loading concert details...</p>
+            </div>
+          }
+  
+          <!-- Error State -->
+          @if (error) {
+            <div class="error-container">
+              <mat-icon class="error-icon">error</mat-icon>
+              <h2>Unable to load concert</h2>
+              <p>{{ error }}</p>
+              <button mat-raised-button [routerLink]="['/concerts']">Back to Concerts</button>
+            </div>
+          }
+  
+          <!-- Form -->
+          @if (!isLoading && !error) {
+            <form [formGroup]="groupForm" (ngSubmit)="onSubmit()">
+            <!-- Group Name -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Group Name</mat-label>
+              <input matInput formControlName="name" placeholder="Enter a name for your group">
+              <mat-icon matSuffix>group</mat-icon>
+              @if (groupForm.get('name')?.invalid && groupForm.get('name')?.touched) {
+                <mat-error>
+                  {{ nameErrors }}
+                </mat-error>
+              }
+            </mat-form-field>
+  
+            <!-- Description -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Description</mat-label>
+              <textarea matInput formControlName="description" rows="4"
+                placeholder="Describe what your group is about, your meetup plans, etc."></textarea>
+              @if (groupForm.get('description')?.invalid && groupForm.get('description')?.touched) {
+                <mat-error>
+                  {{ descriptionErrors }}
+                </mat-error>
+              }
+            </mat-form-field>
+  
+            <!-- Concert Date -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Concert Date</mat-label>
+              <mat-select formControlName="concertDate">
+                @for (date of concertDates; track date) {
+                  <mat-option [value]="date">
+                    {{ date | date:'fullDate' }}
+                  </mat-option>
+                }
+              </mat-select>
+              @if (groupForm.get('concertDate')?.invalid && groupForm.get('concertDate')?.touched) {
+                <mat-error>
+                  Please select a concert date
+                </mat-error>
+              }
+            </mat-form-field>
+  
+            <!-- Group Capacity -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Maximum Capacity</mat-label>
+              <input matInput type="number" formControlName="capacity" min="2" max="50">
+              <mat-icon matSuffix>people</mat-icon>
+              <mat-hint>Between 2 and 50 members</mat-hint>
+              @if (groupForm.get('capacity')?.invalid && groupForm.get('capacity')?.touched) {
+                <mat-error>
+                  {{ capacityErrors }}
+                </mat-error>
+              }
+            </mat-form-field>
+  
+            <!-- Submit Button -->
+            <div class="form-actions">
+              <button mat-button type="button" [routerLink]="['/concerts', concert?.id]">Cancel</button>
+              <button mat-raised-button color="primary" type="submit"
+                [disabled]="groupForm.invalid || submitting || isLoading">
+                @if (submitting) {
+                  <mat-spinner diameter="20" class="button-spinner"></mat-spinner>
+                } @else {
+                  <span>Create Group</span>
+                }
+              </button>
+            </div>
+          </form>
+          }
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  
+  <!-- Footer -->
+  <app-shared-footer></app-shared-footer>

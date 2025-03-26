@@ -1,0 +1,373 @@
+<div class="concert-sync-container">
+  <!-- Shared Navbar -->
+  <app-shared-navbar></app-shared-navbar>
+
+  <!-- Profile Content -->
+  <div class="profile-container">
+    <!-- Loading State -->
+    @if (loading) {
+    <div class="loading-container">
+      <mat-spinner diameter="50"></mat-spinner>
+      <p>Loading your profile...</p>
+    </div>
+    } @else if (error) {
+    <div class="error-container">
+      <mat-icon class="error-icon">error</mat-icon>
+      <h2>Failed to load profile</h2>
+      <p>There was an error loading your profile. Please try again.</p>
+      <button mat-raised-button color="primary" (click)="loadUserProfile()">Retry</button>
+    </div>
+    } @else {
+    <div class="profile-content">
+      <!-- Profile Header -->
+      <div class="profile-header">
+        <div class="profile-avatar">
+          <img [src]="userProfile?.profile_picture_url || '/images/blank_profile_pic_320px.png'" alt="Profile Picture">
+          <!-- Profile Picture Upload Overlay -->
+          <div class="profile-picture-overlay">
+            <button mat-icon-button class="update-picture-btn" (click)="fileInput.click()">
+              <mat-icon>photo_camera</mat-icon>
+            </button>
+          </div>
+          <!-- Hidden file input for profile picture upload -->
+          <input #fileInput type="file" style="display: none" accept="image/*" (change)="onFileSelected($event)">
+        </div>
+        <div class="profile-info">
+          <!-- Editable Name Section with Material form field -->
+          <div class="name-section">
+            @if (!isEditingName) {
+            <h1 class="name-display">{{ userProfile?.name }}</h1>
+            <button mat-icon-button class="edit-name-btn" (click)="toggleEditName()">
+              <mat-icon>edit</mat-icon>
+            </button>
+            } @else {
+            <form [formGroup]="nameForm" (ngSubmit)="updateName()" class="material-name-form">
+              <!-- External label placed above the input field -->
+              <div class="name-form-label">Full Name</div>
+
+              <mat-form-field appearance="outline" class="full-width-name">
+                <input matInput formControlName="name" placeholder="Your full name" autofocus>
+                <mat-error *ngIf="nameForm.get('name')?.invalid">
+                  Name is required
+                </mat-error>
+              </mat-form-field>
+
+              <div class="form-actions name-form-actions">
+                <button mat-button type="button" (click)="toggleEditName()">Cancel</button>
+                <button mat-raised-button color="primary" type="submit" [disabled]="nameForm.invalid || submitting">
+                  @if (submitting) {
+                  <mat-spinner diameter="20"></mat-spinner>
+                  } @else {
+                  Save
+                  }
+                </button>
+              </div>
+            </form>
+            }
+          </div>
+
+          <p class="username">&#64;{{ userProfile?.username }}</p>
+          <div class="profile-stats">
+            <div class="stat">
+              <span class="stat-value">{{ myGroups.length || 0 }}</span>
+              @if (myGroups.length > 1) {
+              <span class="stat-label">Groups</span>
+              } @else {
+              <span class="stat-label">Group</span>
+              }
+            </div>
+            <div class="stat">
+              <!-- Changed to show status rather than another CTA button -->
+              <span class="status-badge" [class.premium-badge]="userProfile?.premium_status"
+                [class.free-badge]="!userProfile?.premium_status">
+                <mat-icon>{{ userProfile?.premium_status ? 'workspace_premium' : 'person' }}</mat-icon>
+                <span>{{ userProfile?.premium_status ? 'Premium' : 'Free User' }}</span>
+              </span>
+            </div>
+          </div>
+
+          <!-- Picture Upload Button (only visible when a file is selected) -->
+          @if (selectedFile) {
+          <div class="upload-picture-section">
+            <span class="selected-file-name">{{ selectedFile.name }}</span>
+            <button mat-raised-button color="primary" [disabled]="uploadingImage" (click)="uploadProfilePicture()">
+              @if (uploadingImage) {
+              <mat-spinner diameter="20"></mat-spinner>
+              } @else {
+              Upload Picture
+              }
+            </button>
+          </div>
+          }
+        </div>
+      </div>
+
+      <!-- Profile Navigation -->
+      <div class="profile-nav">
+        <button mat-button [class.active]="activeTab === 'profile'" (click)="setActiveTab('profile')">
+          <mat-icon>person</mat-icon>
+          <span>Profile</span>
+        </button>
+        <button mat-button [class.active]="activeTab === 'groups'" (click)="setActiveTab('groups')">
+          <mat-icon>group</mat-icon>
+          <span>My Groups</span>
+        </button>
+        <button mat-button [class.active]="activeTab === 'settings'" (click)="setActiveTab('settings')">
+          <mat-icon>settings</mat-icon>
+          <span>Settings</span>
+        </button>
+      </div>
+
+      <!-- Profile Tab Content -->
+      <div class="profile-tab-content">
+        <!-- Profile Info Tab -->
+        @if (activeTab === 'profile') {
+        <div class="profile-info-tab">
+          <h2 class="section-title">Profile Information</h2>
+
+          <!-- Improved info card with standardized row heights -->
+          <div class="info-card">
+            <!-- Each info-item now has consistent height and vertical alignment -->
+            <div class="info-item">
+              <span class="info-label">Full Name</span>
+              <span class="info-value">{{ userProfile?.name }}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Username</span>
+              <span class="info-value">{{ userProfile?.username }}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Email</span>
+              <span class="info-value">{{ userProfile?.email }}</span>
+            </div>
+
+            <!-- Modified phone info item with consistent height and alignment -->
+            <div class="info-item">
+              <span class="info-label">Phone</span>
+              <div class="info-value-editable">
+                @if (!isEditingPhone) {
+                <div class="phone-display">
+                  <span>{{ userProfile?.phone_number || 'Not provided' }}</span>
+                  <button mat-icon-button color="primary" (click)="toggleEditPhone()" aria-label="Edit phone number">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                </div>
+                } @else {
+                <form [formGroup]="phoneForm" (ngSubmit)="updatePhoneNumber()">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Phone Number</mat-label>
+                    <input matInput formControlName="phoneNumber" placeholder="+6598765432">
+                    <mat-error *ngIf="phoneForm.get('phoneNumber')?.hasError('pattern')">
+                      Phone number must start with +65 followed by 8 digits (first digit must be 8 or 9)
+                    </mat-error>
+                  </mat-form-field>
+                  <div class="form-actions">
+                    <button mat-button type="button" (click)="toggleEditPhone()">Cancel</button>
+                    <button mat-raised-button color="primary" type="submit"
+                      [disabled]="phoneForm.invalid || submitting">
+                      @if (submitting) {
+                      <mat-spinner diameter="20"></mat-spinner>
+                      } @else {
+                      Save
+                      }
+                    </button>
+                  </div>
+                </form>
+                }
+              </div>
+            </div>
+
+            <div class="info-item">
+              <span class="info-label">Member Since</span>
+              <span class="info-value">{{ userProfile?.created_at | date:'mediumDate' }}</span>
+            </div>
+          </div>
+
+          <!-- Premium Subscription Section -->
+          <h2 class="section-title">Premium Subscription</h2>
+          <div class="subscription-container">
+            @if (userProfile?.premium_status) {
+            <div class="premium-status-box">
+              <div class="premium-status-header">
+                <mat-icon class="premium-icon">workspace_premium</mat-icon>
+                <span class="premium-active">Premium Active</span>
+              </div>
+
+              <div class="premium-details">
+                <div class="info-item">
+                  <span class="info-label">Expiry Date</span>
+                  <span class="info-value">{{ userProfile?.premium_expiry ? (userProfile?.premium_expiry |
+                    date:'mediumDate') : 'N/A' }}</span>
+                </div>
+                <div class="info-item">
+                  <span class="info-label">Auto-Renewal</span>
+                  <span class="info-value">{{ userProfile?.auto_renew ? 'Enabled' : 'Disabled' }}</span>
+                </div>
+              </div>
+
+              <button mat-raised-button color="primary" [routerLink]="['/premium']">Manage Subscription</button>
+            </div>
+            } @else {
+            <div class="non-premium-box">
+              <p>Upgrade to Premium to enjoy enhanced features and benefits!</p>
+
+              <div class="premium-benefits">
+                <div class="benefit-item">
+                  <mat-icon>add_circle</mat-icon>
+                  <span class="benefit-text">Create up to 10 concert groups (vs 2 for free users)</span>
+                </div>
+                <div class="benefit-item">
+                  <mat-icon>priority_high</mat-icon>
+                  <span class="benefit-text">Priority access to new features</span>
+                </div>
+                <div class="benefit-item">
+                  <mat-icon>verified_user</mat-icon>
+                  <span class="benefit-text">Premium profile badge</span>
+                </div>
+              </div>
+
+              <button mat-raised-button class="accent" [routerLink]="['/premium']">
+                <mat-icon>star</mat-icon>
+                <span>Upgrade to Premium</span>
+              </button>
+            </div>
+            }
+          </div>
+
+          <div class="action-buttons">
+            <button mat-raised-button class="warn" (click)="logout()">
+              <mat-icon>logout</mat-icon>
+              <span>Logout</span>
+            </button>
+          </div>
+        </div>
+        }
+
+        <!-- My Groups Tab -->
+        @if (activeTab === 'groups') {
+        <div class="groups-tab">
+          <h2 class="section-title">My Groups</h2>
+
+          @if (groupsLoading) {
+          <div class="groups-loading">
+            <mat-spinner diameter="40"></mat-spinner>
+            <p>Loading your groups...</p>
+          </div>
+          } @else if (myGroups && myGroups.length > 0) {
+          <div class="groups-grid">
+            @for (group of myGroups; track group.id) {
+            <mat-card class="group-card">
+              <!-- Group Title and Main Info -->
+              <div class="group-title-area">
+                <h3 class="group-title">{{ group.name }}</h3>
+
+                <!-- Members badge -->
+                <div class="members-badge">
+                  <mat-icon>people</mat-icon>
+                  <span>{{ group.memberCount }}/{{ group.capacity }} members</span>
+                </div>
+
+                <div class="group-meta">
+                  <div class="meta-item">
+                    <mat-icon>event</mat-icon>
+                    <span>{{ group.concertDate | date:'mediumDate' }}</span>
+                  </div>
+
+                  <div class="meta-item">
+                    <mat-icon>{{ group.isPublic ? 'public' : 'lock' }}</mat-icon>
+                    <span>{{ group.isPublic ? 'Public Group' : 'Private Group' }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Divider -->
+              <div class="card-divider"></div>
+
+              <!-- Description -->
+              <div class="group-description">
+                <p>{{ group.description | slice:0:100 }}{{ group.description.length > 100 ? '...' : '' }}</p>
+              </div>
+
+              <!-- Divider -->
+              <div class="card-divider"></div>
+
+              <!-- Actions -->
+              <div class="group-actions">
+                <button mat-stroked-button class="action-link" [routerLink]="['/groups', group.id]">View Group</button>
+              </div>
+            </mat-card>
+            }
+          </div>
+          } @else {
+          <div class="empty-state">
+            <mat-icon>group_off</mat-icon>
+            <h3>No Groups Yet</h3>
+            <p>You haven't joined any groups yet.</p>
+            <button mat-raised-button class="empty-state-button" [routerLink]="['/groups']">
+              <mat-icon>group_add</mat-icon>
+              <span>Find Groups</span>
+            </button>
+          </div>
+          }
+        </div>
+        }
+
+        <!-- Settings Tab -->
+        @if (activeTab === 'settings') {
+        <div class="settings-tab">
+          <h2 class="section-title">Account Settings</h2>
+
+          <div class="info-card">
+            <div class="settings-message">
+              <mat-icon>info</mat-icon>
+              <p>You can update your phone number on the Profile tab. Other profile settings will be available in future
+                updates.</p>
+            </div>
+
+            <div class="delete-account-section">
+              <h3>Delete Account</h3>
+              <p>Deleting your account is permanent and cannot be undone. All your data, including groups, messages, and
+                personal information will be permanently removed.</p>
+              <button mat-stroked-button class="delete-account-btn warn" (click)="openDeleteAccountDialog()">
+                <mat-icon>delete_forever</mat-icon>
+                <span>Delete Account</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+    }
+  </div>
+
+  <!-- Delete Account Confirmation Dialog -->
+  @if (showDeleteConfirmation) {
+  <div class="dialog-backdrop" (click)="cancelDeleteAccount()">
+    <div class="delete-confirmation-dialog" (click)="$event.stopPropagation()">
+      <h2>Confirm Account Deletion</h2>
+      <p>Are you sure you want to permanently delete your account? This action cannot be undone and all your data will
+        be lost.</p>
+      <form [formGroup]="deleteConfirmForm" (ngSubmit)="confirmDeleteAccount()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Type "DELETE" to confirm</mat-label>
+          <input matInput formControlName="confirmText" placeholder="DELETE">
+        </mat-form-field>
+        <div class="delete-confirmation-actions">
+          <button mat-button type="button" (click)="cancelDeleteAccount()">Cancel</button>
+          <button mat-raised-button color="warn" type="submit" [disabled]="deleteConfirmForm.invalid || deleting">
+            @if (deleting) {
+            <mat-spinner diameter="20"></mat-spinner>
+            } @else {
+            Delete Account
+            }
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  }
+</div>
+
+<!-- Shared Footer -->
+<app-shared-footer></app-shared-footer>

@@ -1,0 +1,169 @@
+.registration-container {
+  display: flex;
+  justify-content: center;
+  padding: 48px 24px;
+  background: linear-gradient(135deg, #f0e6ff 0%, #e8ddff 100%);
+  min-height: calc(100vh - 64px);
+}
+
+.registration-card {
+  max-width: 600px;
+  width: 100%;
+  padding: 24px;
+}
+
+/* Header styles */
+.header-content {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+mat-card-title {
+  font-size: 28px;
+  color: #673ab7;
+  margin-bottom: 12px;
+}
+
+mat-card-subtitle {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+.submit-button {
+  min-width: 180px;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.card-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 16px;
+  padding: 16px;
+  border-top: 1px solid #eee;
+}
+
+/* Error message styling */
+.error-message {
+  display: flex;
+  align-items: center;
+  margin: 0 0 16px 0;
+  padding: 8px 16px;
+  background-color: #fff4f4;
+  border: 1px solid #ffcdd2;
+  border-radius: 4px;
+  color: #d32f2f;
+}
+
+.error-message mat-icon {
+  margin-right: 8px;
+  font-size: 18px;
+  height: 18px;
+  width: 18px;
+}
+
+/* Success message styling - Improved */
+.success-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 32px auto;
+  padding: 32px 24px;
+  background-color: #e8f5e9;
+  border: 1px solid #c8e6c9;
+  border-radius: 8px;
+  max-width: 400px;
+}
+
+.success-message mat-icon {
+  font-size: 64px;
+  height: 64px;
+  width: 64px;
+  margin-bottom: 24px;
+  color: #4caf50;
+}
+
+.success-message h3 {
+  font-size: 24px;
+  font-weight: 500;
+  margin: 0 0 16px 0;
+  color: #2e7d32;
+}
+
+.success-message .success-text {
+  color: #333;
+  margin: 0 0 24px 0;
+  line-height: 1.5;
+  font-size: 16px;
+}
+
+.success-message .redirect-note {
+  color: #666;
+  margin: 0;
+  font-style: italic;
+  font-size: 14px;
+}
+
+/* PWA and responsive adjustments */
+@media (max-width: 600px) {
+  .registration-container {
+    padding: 16px 12px;
+  }
+
+  .registration-card {
+    padding: 16px;
+  }
+
+  mat-card-title {
+    font-size: 24px;
+  }
+
+  .submit-button {
+    width: 100%;
+  }
+  
+  .nav-links {
+    display: none;
+  }
+  
+  /* Better touch targets for mobile */
+  .submit-button {
+    height: 56px;
+  }
+  
+  .success-message {
+    padding: 24px 16px;
+    margin: 16px auto;
+  }
+  
+  .success-message mat-icon {
+    font-size: 48px;
+    height: 48px;
+    width: 48px;
+    margin-bottom: 16px;
+  }
+}
+
+/* Fix for iOS Safari viewport height issue */
+@supports (-webkit-touch-callout: none) {
+  .registration-container {
+    min-height: -webkit-fill-available;
+  }
+}

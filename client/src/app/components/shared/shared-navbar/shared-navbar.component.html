@@ -1,0 +1,91 @@
+<mat-toolbar class="header-toolbar">
+    <div class="logo-container" [routerLink]="['/']">
+        <img src="/images/concertsync-logo.png" alt="ConcertSync Logo" class="logo-img">
+        <span class="logo-text">ConcertSync</span>
+    </div>
+    <span class="toolbar-spacer"></span>
+
+    <div class="nav-links">
+        <a mat-button [routerLink]="['/']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+            class="nav-link">
+            <mat-icon>home</mat-icon>
+            <span>Home</span>
+        </a>
+        <a mat-button [routerLink]="['/groups']" routerLinkActive="active" class="nav-link">
+            <mat-icon>group</mat-icon>
+            <span>Groups</span>
+        </a>
+        <a mat-button [routerLink]="['/setlists']" routerLinkActive="active" class="nav-link">
+            <mat-icon>queue_music</mat-icon>
+            <span>Setlists</span>
+        </a>
+    </div>
+
+    <span class="toolbar-spacer"></span>
+
+    <!-- User is not logged in -->
+    @if (!isLoggedIn) {
+    <div class="auth-buttons">
+        <button mat-button [routerLink]="['/login']">
+            <mat-icon>login</mat-icon>
+            <span>Sign In</span>
+        </button>
+        <button mat-raised-button class="accent" [routerLink]="['/register']">
+            <mat-icon>person_add</mat-icon>
+            <span>Sign Up</span>
+        </button>
+    </div>
+    }
+
+    <!-- User is logged in - Option 1: Username in Menu Header -->
+    @if (isLoggedIn) {
+    <div class="user-menu">
+        <!-- Simple avatar button -->
+        <button class="avatar-button" [matMenuTriggerFor]="userMenu" aria-label="User menu">
+            <img [src]="userProfile?.profilePictureUrl" alt="Profile Picture" class="profile-picture">
+        </button>
+        
+        <!-- Material Menu Component -->
+        <mat-menu #userMenu="matMenu" class="user-menu-panel" xPosition="before">
+            <!-- User info as non-clickable menu item with name and username -->
+            <div mat-menu-item disabled class="user-info-header">
+                <div class="menu-header-content">
+                    <div class="user-fullname">{{ userProfile?.name }}</div>
+                    <div class="user-detail">&#64;{{ userProfile?.username }}</div>
+                </div>
+            </div>
+            @if (userProfile?.premiumStatus) {
+                <div class="premium-badge">
+                  <mat-icon>workspace_premium</mat-icon>
+                  <span>Premium Member</span>
+                </div>
+            }
+            
+            <mat-divider></mat-divider>
+            
+            <!-- Menu Items -->
+            <button mat-menu-item (click)="navigateTo('/profile')">
+                <mat-icon>person</mat-icon>
+                <span>My Profile</span>
+            </button>
+            
+            <button mat-menu-item (click)="navigateTo('/groups')">
+                <mat-icon>group</mat-icon>
+                <span>My Groups</span>
+            </button>
+
+            <button mat-menu-item (click)="navigateTo('/premium')">
+                <mat-icon>star</mat-icon>
+                <span>{{ userProfile?.premiumStatus ? 'Manage Premium' : 'Premium Access' }}</span>
+              </button>
+            
+            <mat-divider></mat-divider>
+            
+            <button mat-menu-item class="logout-item" (click)="logout()">
+                <mat-icon>exit_to_app</mat-icon>
+                <span>Logout</span>
+            </button>
+        </mat-menu>
+    </div>
+    }
+</mat-toolbar>

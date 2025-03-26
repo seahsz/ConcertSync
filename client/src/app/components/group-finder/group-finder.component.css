@@ -1,0 +1,519 @@
+.group-finder-container {
+    background: linear-gradient(135deg, #f0e6ff 0%, #e8ddff 100%);
+    min-height: calc(100vh - 64px);
+}
+
+/* Header Section */
+.finder-header {
+    background-color: #673ab7;
+    color: white;
+    padding: 48px 24px;
+    text-align: center;
+}
+
+.finder-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.finder-subtitle {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Main Content Layout - FIXED CONSISTENT PADDING */
+.finder-content {
+    display: grid;
+    grid-template-columns: minmax(300px, 1fr) 2fr;
+    gap: 24px;
+    padding: 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* Panel Styling - CONSISTENT WIDTH AND BACKGROUND */
+.concerts-panel,
+.groups-panel {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    height: fit-content;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.panel-header {
+    padding: 16px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.panel-header h2 {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.panel-header.with-action {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.search-field {
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+/* Concert List Styling */
+.concerts-list {
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.concert-item {
+    display: flex;
+    padding: 16px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.concert-item:hover {
+    background-color: #f9f4ff;
+}
+
+.concert-item.active {
+    background-color: #ede7f6;
+    border-left: 4px solid #673ab7;
+}
+
+.concert-image {
+    width: 70px;
+    height: 70px;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-right: 16px;
+    flex-shrink: 0;
+}
+
+.concert-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.concert-details h3 {
+    margin: 0 0 8px 0;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.concert-details p {
+    margin: 4px 0;
+    display: flex;
+    align-items: center;
+    color: #666;
+    font-size: 14px;
+}
+
+.concert-details p mat-icon {
+    font-size: 16px;
+    height: 16px;
+    width: 16px;
+    margin-right: 8px;
+    color: #673ab7;
+}
+
+/* Groups List Styling */
+.groups-list {
+    padding: 16px;
+    background-color: white; /* Keep white background */
+    border-radius: 0 0 8px 8px;
+}
+
+.selected-concert-groups {
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.group-card {
+    background-color: #f8f5ff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    width: 100%;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin-bottom: 16px;
+}
+
+.group-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Group Card Title Area */
+.group-title-area {
+    padding: 16px 16px 8px 16px;
+    position: relative;
+}
+
+.group-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 8px 0;
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    word-break: break-word;
+}
+
+.members-badge {
+    display: flex;
+    align-items: center;
+    background-color: rgba(103, 58, 183, 0.1);
+    padding: 4px 10px;
+    border-radius: 16px;
+    font-size: 0.875rem;
+    color: #673ab7;
+    font-weight: 500;
+    white-space: nowrap;
+    margin-bottom: 12px;
+    width: fit-content;
+}
+
+.members-badge mat-icon {
+    font-size: 18px;
+    height: 18px;
+    width: 18px;
+    margin-right: 4px;
+    color: #673ab7;
+}
+
+.group-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.group-meta .meta-item {
+    display: flex;
+    align-items: center;
+    font-size: 0.875rem;
+    color: #666;
+}
+
+.group-meta .meta-item mat-icon {
+    font-size: 16px;
+    height: 16px;
+    width: 16px;
+    margin-right: 4px;
+    color: #673ab7;
+}
+
+.card-divider {
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.08);
+    margin: 0 16px;
+}
+
+.group-description {
+    padding: 12px 16px;
+}
+
+.group-description p {
+    margin: 0;
+    color: #555;
+    line-height: 1.5;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    word-break: break-word;
+}
+
+.group-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+    padding: 12px 16px;
+}
+
+.action-link,
+.join-button {
+    min-width: 120px;
+    text-align: center;
+    transition: all 0.2s ease;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    padding: 0 16px;
+    height: 36px;
+    line-height: 36px;
+}
+
+.join-button {
+    background-color: #673ab7;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.join-button:hover {
+    background-color: #5c34a4;
+}
+
+.action-link {
+    color: #673ab7;
+    text-decoration: none;
+    border: 1px solid #673ab7;
+    border-radius: 4px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.action-link:hover {
+    background-color: rgba(103, 58, 183, 0.1);
+}
+
+/* FIXED: My Groups Section - CONSISTENT WIDTH AND PADDING */
+.my-groups-section {
+    padding: 32px 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.my-groups-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 24px;
+    margin-bottom: 32px;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.my-groups-header {
+    margin-bottom: 24px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 16px;
+}
+
+.my-groups-header h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+}
+
+.my-groups-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+}
+
+/* Empty state styling - PURPLE BACKGROUND CONSISTENT */
+.empty-groups-state,
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+    text-align: center;
+    background-color: #f7edff;
+    border-radius: 8px;
+    margin: auto;
+    width: calc(100% - 48px);
+    flex-grow: 1;
+    max-height: 100%;
+    box-sizing: border-box;
+}
+
+/* Specific fix for no-selection to fit properly in groups-panel */
+.no-selection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    text-align: center;
+    background-color: #f7edff;
+    border-radius: 8px;
+    margin: 16px;
+    width: auto;
+    box-sizing: border-box;
+    min-height: 300px;
+    max-height: 500px;
+}
+
+.empty-groups-state mat-icon,
+.empty-state mat-icon,
+.no-selection mat-icon {
+    font-size: 64px;
+    height: 64px;
+    width: 64px;
+    color: #673ab7;
+    opacity: 0.5;
+    margin-bottom: 24px;
+}
+
+.empty-groups-state h3,
+.empty-state h3,
+.no-selection h3 {
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 12px;
+}
+
+.empty-groups-state p,
+.empty-state p,
+.no-selection p {
+    color: #666;
+    font-size: 1.1rem;
+    margin-bottom: 24px;
+    max-width: 400px;
+}
+
+.empty-groups-state .action-button,
+.empty-state button {
+    padding: 0 24px;
+    height: 48px;
+    font-size: 1rem;
+    margin-top: 16px;
+}
+
+/* Loading and Error States */
+.loading-container,
+.error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+    text-align: center;
+}
+
+.loading-container p {
+    margin-top: 16px;
+    color: #666;
+}
+
+.error-container mat-icon {
+    font-size: 48px;
+    height: 48px;
+    width: 48px;
+    color: #9e9e9e;
+    margin-bottom: 16px;
+}
+
+.error-container p {
+    color: #666;
+    margin-bottom: 16px;
+}
+
+/* Responsive Adjustments - FIXED CONSISTENT PADDING */
+@media (max-width: 960px) {
+    .finder-content {
+        grid-template-columns: 1fr;
+        padding: 24px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .finder-title {
+        font-size: 2rem;
+    }
+
+    .finder-subtitle {
+        font-size: 1rem;
+    }
+
+    /* Ensure consistent width */
+    .concerts-panel,
+    .groups-panel,
+    .my-groups-container {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* Ensure my-groups-section has same padding as finder-content */
+    .my-groups-section {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 32px 24px;
+    }
+}
+
+@media (max-width: 600px) {
+    .finder-header {
+        padding: 32px 16px;
+    }
+
+    /* FIXED: Make these consistent with 16px padding on small screens */
+    .finder-content,
+    .my-groups-section {
+        padding: 16px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .finder-title {
+        font-size: 1.8rem;
+    }
+
+    .concert-image {
+        width: 50px;
+        height: 50px;
+    }
+
+    .panel-header.with-action {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .panel-header.with-action button {
+        margin-top: 8px;
+        width: 100%;
+    }
+
+    .my-groups-container {
+        padding: 16px;
+        min-height: 350px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .empty-groups-state,
+    .empty-state,
+    .no-selection {
+        width: calc(100% - 32px);
+        padding: 32px 16px;
+    }
+}

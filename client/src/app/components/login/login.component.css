@@ -1,0 +1,242 @@
+.login-container {
+    display: flex;
+    justify-content: center;
+    padding: 64px 24px;
+    background: linear-gradient(135deg, #f0e6ff 0%, #e8ddff 100%);
+    min-height: calc(100vh - 64px);
+  }
+  
+  .login-card {
+    max-width: 450px;
+    width: 100%;
+    padding: 24px;
+  }
+  
+  .header-content {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  
+  mat-card-title {
+    font-size: 28px;
+    color: #673ab7;
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+  
+  mat-card-subtitle {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 8px;
+  }
+  
+  .full-width {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+  
+  /* Error message styling */
+  .error-message {
+    display: flex;
+    align-items: flex-start;
+    margin: 0 0 16px 0;
+    padding: 12px 16px;
+    background-color: #fff4f4;
+    border: 1px solid #ffcdd2;
+    border-radius: 4px;
+    color: #d32f2f;
+  }
+  
+  .error-message mat-icon {
+    margin-right: 12px;
+    font-size: 20px;
+    height: 20px;
+    width: 20px;
+  }
+  
+  .email-unverified {
+    background-color: #fff8e1;
+    border-color: #ffe082;
+    color: #ff8f00;
+  }
+  
+  .message-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .message-content button {
+    margin-top: 4px;
+    padding: 0 12px;  /* Add horizontal padding */
+    font-weight: 500;
+    min-width: 160px;  /* Ensure enough width */
+    height: 32px;      /* Consistent height */
+    line-height: 32px; /* Center text vertically */
+  }
+  
+  /* Login options */
+  .login-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  
+  .forgot-password {
+    color: #673ab7;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s;
+  }
+  
+  .forgot-password:hover {
+    color: #9c27b0;
+    text-decoration: underline;
+  }
+  
+  /* Form actions */
+  .form-actions {
+    display: flex;
+    justify-content: center;
+    margin: 24px 0;
+  }
+  
+  .submit-button {
+    min-width: 180px;
+    height: 48px;
+    font-size: 16px;
+    font-weight: 500;
+    background-color: #673ab7;
+    color: white;
+  }
+  
+  /* Social login section */
+  .social-login {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
+  }
+  
+  .divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 16px 0;
+  }
+  
+  .divider::before,
+  .divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .divider span {
+    padding: 0 16px;
+    color: #757575;
+    font-size: 14px;
+  }
+  
+  .social-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 44px;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: background-color 0.3s;
+  }
+  
+  .social-button span {
+    margin-left: 8px;
+  }
+  
+  .social-icon {
+    height: 20px;
+    width: 20px;
+  }
+  
+  .google {
+    border-color: #e0e0e0;
+  }
+  
+  .google:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .facebook {
+    border-color: #3b5998;
+  }
+  
+  .facebook-icon {
+    color: #3b5998;
+  }
+  
+  .facebook:hover {
+    background-color: #f0f2f5;
+  }
+  
+  /* Card actions */
+  .card-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 8px;
+    padding: 16px;
+    border-top: 1px solid #eee;
+  }
+  
+  .card-actions span {
+    color: #616161;
+  }
+  
+  .card-actions button {
+    margin-left: 8px;
+    font-weight: 500;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 600px) {
+    .login-container {
+      padding: 32px 16px;
+    }
+  
+    .login-card {
+      padding: 16px;
+    }
+  
+    mat-card-title {
+      font-size: 24px;
+    }
+  
+    .login-options {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+  
+    .submit-button {
+      width: 100%;
+    }
+  
+    .message-content {
+      width: 100%;
+    }
+  }
+  
+  /* Fix for iOS Safari viewport height issue */
+  @supports (-webkit-touch-callout: none) {
+    .login-container {
+      min-height: -webkit-fill-available;
+    }
+  }
+  
+  /* Styling for inline spinner */
+  .spinner-inline {
+    display: inline-block;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
